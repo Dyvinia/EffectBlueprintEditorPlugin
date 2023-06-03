@@ -12,44 +12,112 @@ namespace ScalableEmitterEditorPlugin
 
         #region -- Fields --
 
-        public object EmitterItemObj;
+        public dynamic EmitterItemObj;
         public object EvaluatorObj;
 
         private FrostyPropertyGrid propertyGrid;
-        private string processorText;
-        private string evaluatorText;
+
+        private string xName;
+        private string yName;
+        private string zName;
+        private string wName;
 
         #endregion
 
         #region -- Properties --
 
-        public string ProcessorText
-        {
-            get
-            {
-                return processorText;
+        public string XName {
+            get {
+                return xName;
             }
-            set
-            {
-                if (processorText != value)
-                {
-                    processorText = value;
-                    RaisePropertyChanged("ProcessorText");
+            set {
+                if (xName != value) {
+                    xName = value;
+                    RaisePropertyChanged("XName");
                 }
             }
         }
-        public string EvaluatorText
-        {
-            get
-            {
-                return evaluatorText;
+
+        public string YName {
+            get {
+                return yName;
             }
-            set
-            {
-                if (evaluatorText != value)
-                {
-                    evaluatorText = value;
-                    RaisePropertyChanged("EvaluatorText");
+            set {
+                if (yName != value) {
+                    yName = value;
+                    RaisePropertyChanged("YName");
+                }
+            }
+        }
+
+        public string ZName {
+            get {
+                return zName;
+            }
+            set {
+                if (zName != value) {
+                    zName = value;
+                    RaisePropertyChanged("ZName");
+                }
+            }
+        }
+
+        public string WName {
+            get {
+                return wName;
+            }
+            set {
+                if (wName != value) {
+                    wName = value;
+                    RaisePropertyChanged("WName");
+                }
+            }
+        }
+
+        public float XValue {
+            get {
+                return EmitterItemObj.Value.x;
+            }
+            set {
+                if (EmitterItemObj.Value.x != value) {
+                    EmitterItemObj.Value.x = value;
+                    RaisePropertyChanged("XValueText");
+                }
+            }
+        }
+
+        public float YValue {
+            get {
+                return EmitterItemObj.Value.y;
+            }
+            set {
+                if (EmitterItemObj.Value.y != value) {
+                    EmitterItemObj.Value.y = value;
+                    RaisePropertyChanged("YValueText");
+                }
+            }
+        }
+
+        public float ZValue {
+            get {
+                return EmitterItemObj.Value.z;
+            }
+            set {
+                if (EmitterItemObj.Value.z != value) {
+                    EmitterItemObj.Value.z = value;
+                    RaisePropertyChanged("ZValueText");
+                }
+            }
+        }
+
+        public float WValue {
+            get {
+                return EmitterItemObj.Value.w;
+            }
+            set {
+                if (EmitterItemObj.Value.w != value) {
+                    EmitterItemObj.Value.w = value;
+                    RaisePropertyChanged("WValueText");
                 }
             }
         }
@@ -68,20 +136,13 @@ namespace ScalableEmitterEditorPlugin
         {
             propertyGrid = pg;
             EmitterItemObj = obj;
-            isEmitterRoot = isRoot;
-            ProcessorSelected = false;
-            EvaluatorSelected = false;
-            ProcessorText = "Processor";
-            EvaluatorText = "Evaluator";
-            EvaluatorVisible = true;
 
-            ProcessorText = ((int)obj.PropertyId).ToString();
-
-            EvaluatorText = ((int)obj.PropertyId).ToString();
-
+            XName = "XX";
+            YName = "YY";
+            ZName = "ZZ";
+            WName = "WW";
         }
 
         #endregion
-
     }
 }

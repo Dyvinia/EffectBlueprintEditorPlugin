@@ -84,7 +84,7 @@ namespace ScalableEmitterEditorPlugin
             pgAsset = GetTemplateChild(PART_AssetPropertyGrid) as FrostyPropertyGrid;
             pgAsset.OnModified += PgAsset_OnModified;
             emitterStackPanel = GetTemplateChild(PART_EmitterStackPanel) as FrostyDockablePanel;
-            emitterStackPanel.MouseLeftButtonDown += EmitterStackPanel_MouseLeftButtonDown;
+            //emitterStackPanel.MouseLeftButtonDown += EmitterStackPanel_MouseLeftButtonDown;
             emitterStack = GetTemplateChild(PART_EmitterStack) as ItemsControl;
             emitterStack.Loaded += EmitterStack_Loaded;
             emitterStack.MouseLeftButtonDown += EmitterStack_MouseLeftButtonDown;
@@ -119,7 +119,7 @@ namespace ScalableEmitterEditorPlugin
                 }
             }
 
-            pgAsset.Object = obj.Object.Internal.Components;
+            //pgAsset.Object = obj.Object.Internal.Components;
             //pgAsset.Object = objectnew;
 
 
@@ -181,6 +181,7 @@ namespace ScalableEmitterEditorPlugin
             dynamic obj = asset.RootObject;
         }
 
+        /*
         private void EmitterStackPanel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             DependencyObject visualHit = VisualTreeHelper.HitTest(emitterStackPanel, e.GetPosition(emitterStackPanel)).VisualHit;
@@ -261,7 +262,7 @@ namespace ScalableEmitterEditorPlugin
                     pgAsset.SetClass(EmitterStackItems[0].EmitterItemObj);
                 }
             }
-        }
+        }*/
 
         private void EmitterStack_Loaded(object sender, RoutedEventArgs e)
         {

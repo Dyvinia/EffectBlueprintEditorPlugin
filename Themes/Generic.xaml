@@ -76,22 +76,25 @@
                                         </DockPanel>
                                     </Border>
 
-                                    <Grid HorizontalAlignment="Center" Grid.Row="1">
-                                        <ItemsControl x:Name="PART_EmitterStack">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <local:EmitterStackItem Panel.ZIndex="1"/>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <VirtualizingStackPanel Orientation="Vertical"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
-                                    </Grid>
+                                    <ScrollViewer HorizontalAlignment="Center" Grid.Row="1">
+                                        <Grid >
+                                            <ItemsControl x:Name="PART_EmitterStack">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <local:EmitterStackItem Panel.ZIndex="1"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel Orientation="Vertical"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </ScrollViewer>
+                                    
                                 </Grid>
                             </Border>
                         </ctrl:FrostyDockablePanel>
@@ -119,9 +122,37 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:EmitterStackItem}">
-                    <Grid Margin="0,0,0,-22" HorizontalAlignment="Center">
+                    <Grid Margin="2" HorizontalAlignment="Center">
                         <UniformGrid>
-                            <Grid>
+                            <StackPanel Orientation="Vertical" Background="#FF454545" HorizontalAlignment="Center" >
+                                <TextBlock Text="Header" HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2">
+                                    <StackPanel x:Name="PART_X" Orientation="Vertical" Width="100" Margin="2">
+                                        <TextBlock Text="{Binding Path=XName}" HorizontalAlignment="Center"/>
+                                        <TextBox Text="{Binding Path=XValue, Mode=TwoWay}"/>
+                                    </StackPanel>
+
+                                    <StackPanel x:Name="PART_Y" Orientation="Vertical" Width="100" Margin="2">
+                                        <TextBlock Text="{Binding Path=YName}" HorizontalAlignment="Center"/>
+                                        <TextBox Text="{Binding Path=YValue, Mode=TwoWay}"/>
+                                    </StackPanel>
+
+                                    <StackPanel x:Name="PART_Z" Orientation="Vertical" Width="100" Margin="2">
+                                        <TextBlock Text="{Binding Path=ZName}" HorizontalAlignment="Center"/>
+                                        <TextBox Text="{Binding Path=ZValue, Mode=TwoWay}"/>
+                                    </StackPanel>
+
+                                    <StackPanel x:Name="PART_W" Orientation="Vertical" Width="100" Margin="2">
+                                        <TextBlock Text="{Binding Path=ZName}" HorizontalAlignment="Center"/>
+                                        <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            
+                            <Grid Visibility="Collapsed">
+                                
                                 <Border x:Name="PART_EvaluatorBox" BorderBrush="Transparent" BorderThickness="1" MinWidth="145" Height="21" Background="#FF454545" HorizontalAlignment="Right"
                                 Visibility="{Binding Path=EvaluatorVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Panel.ZIndex="0">
                                     <DockPanel>
@@ -138,7 +169,7 @@
                                 </Border>
                             </Grid>
 
-                            <Grid Margin="-1,0,0,0">
+                            <Grid Margin="-1,0,0,0" Visibility="Collapsed">
                                 <Border x:Name="PART_ProcessorBox" BorderBrush="Transparent" BorderThickness="1" MinWidth="145" Height="21" Background="#FF454545" HorizontalAlignment="Left">
                                     <TextBlock x:Name="PART_ProcessorText" Margin="25,0,25,0" Text="{Binding Path=ProcessorText, Mode=TwoWay}" 
                                            HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center"/>

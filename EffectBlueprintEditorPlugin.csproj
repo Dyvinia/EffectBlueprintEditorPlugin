@@ -46,16 +46,16 @@
 
   <ItemGroup>
     <Reference Include="FrostyControls">
-      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final\FrostyControls.dll</HintPath>
+      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Developer\Debug\FrostyControls.dll</HintPath>
     </Reference>
     <Reference Include="FrostyCore">
-      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final\FrostyCore.dll</HintPath>
+      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Developer\Debug\FrostyCore.dll</HintPath>
     </Reference>
     <Reference Include="FrostyHash">
-      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final\FrostyHash.dll</HintPath>
+      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Developer\Debug\FrostyHash.dll</HintPath>
     </Reference>
     <Reference Include="FrostySdk">
-      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final\FrostySdk.dll</HintPath>
+      <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Developer\Debug\FrostySdk.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
@@ -66,7 +66,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /Y $(TargetPath) D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final\Plugins\&#xD;&#xA;xcopy /Y $(TargetDir)$(TargetName).pdb D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final\Plugins\" />
+    <Exec Command="xcopy /Y $(TargetPath) D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Developer\Debug\Plugins\&#xD;&#xA;xcopy /Y $(TargetDir)$(TargetName).pdb D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Developer\Debug\Plugins\" />
   </Target>
 
 </Project>
