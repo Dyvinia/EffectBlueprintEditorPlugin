@@ -9,6 +9,9 @@ using System.Collections.ObjectModel;
 using Frosty.Controls;
 using System.Windows.Media;
 using System.Dynamic;
+using System.Linq;
+using System.Windows.Shapes;
+using System.Globalization;
 
 namespace ScalableEmitterEditorPlugin
 {
@@ -97,9 +100,35 @@ namespace ScalableEmitterEditorPlugin
             int count = 0;
             foreach (dynamic component in obj.Object.Internal.Components) {
                 if (((object)component.Internal).GetType().Name == "EmitterGraphEntityData") {
-                    EmitterStackItems.Add(new EmitterStackItemData(component.Internal.EmitterGraphParams[0], pgAsset, $"[{count}] {component.Internal.__Id}"));
+                    dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
+
+                    EmitterStackItems.Add(new EmitterStackItemData(component.Internal.EmitterGraphParams[0], pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
+
+                    Dictionary<int, string[]> vsfParams = new Dictionary<int, string[]>();
+                    try {
+                        dynamic eGraph = App.AssetManager.GetEbx(reference).RootObject;
+
+                        dynamic[] egParams = eGraph.EmitterGraphParams.ToArray();
+
+                        string vsf = App.AssetManager.GetEbx(String.IsNullOrEmpty(eGraph.MeshVertexShaderFragmentAssetName) ? eGraph.VertexShaderFragmentAssetName : eGraph.MeshVertexShaderFragmentAssetName).RootObject.PipelineGeneratedSourceCode;
+
+                        string[] lines = vsf.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                        List<string> vsfParamLines = lines.Where(l => l.Contains("g_emitterGraphParams[") && l.Contains("].xyzw")).ToList();
+
+                        
+
+                        for (int i = 0; i < vsfParamLines.Count; i++) {
+                            List<string> param = new List<string>();
+                            foreach (string vsfParamLine in vsfParamLines[i].Split()[3].Split('_')) {
+                                param.Add(char.ToUpper(vsfParamLine[0]) + vsfParamLine.Substring(1));
+                            }
+                            vsfParams.Add(egParams[i].PropertyId, param.ToArray());
+                        }
+                    }
+                    catch { }
+
                     foreach (dynamic param in component.Internal.EmitterGraphParams) {
-                        EmitterStackItems.Add(new EmitterStackItemData(param, pgAsset));
+                        EmitterStackItems.Add(new EmitterStackItemData(param, pgAsset, vsfParams));
                     }
                 }
                 count++;

@@ -140,9 +140,9 @@ namespace ScalableEmitterEditorPlugin
         /// Initializes an instance of the <see cref="EmitterStackItemData"/> class with a referenced object.
         /// </summary>
         /// <param name="obj">The processor or evaluator that this item represents</param>
-        /// <param name="isRoot">Is this item the emitter base?</param>
         /// <param name="pg">The property grid to be updated</param>
-        public EmitterStackItemData(dynamic obj, FrostyPropertyGrid pg, string header = null)
+        /// <param name="header">Header item</param>
+        public EmitterStackItemData(dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, string header = null)
         {
             propertyGrid = pg;
             EmitterItemObj = obj;
@@ -156,8 +156,38 @@ namespace ScalableEmitterEditorPlugin
                 HeaderText = header;
                 ValuesVisiblity = Visibility.Collapsed;
             }
-            else
+            else {
                 HeaderVisiblity = Visibility.Collapsed;
+
+                if (vsfParams.TryGetValue(obj.PropertyId, out string[] value)) {
+                    switch (value?.Length) {
+                        case 4:
+                            XName = value[0];
+                            YName = value[1];
+                            ZName = value[2];
+                            WName = value[3];
+                            break;
+                        case 3:
+                            XName = value[0];
+                            YName = "";
+                            ZName = value[1];
+                            WName = value[2];
+                            break;
+                        case 2:
+                            XName = value[0];
+                            YName = "";
+                            ZName = "";
+                            WName = value[1];
+                            break;
+                        case 1:
+                            XName = value[0];
+                            YName = "";
+                            ZName = "";
+                            WName = "";
+                            break;
+                    }
+                }
+            }
         }
 
         #endregion
