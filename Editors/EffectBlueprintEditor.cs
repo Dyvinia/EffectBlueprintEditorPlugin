@@ -29,6 +29,10 @@ namespace ScalableEmitterEditorPlugin
         private const string PART_EmitterStackColumn = "PART_EmitterStackColumn";
         private const string PART_Refresh = "PART_Refresh";
         private const string PART_AutoRefresh = "PART_AutoRefresh";
+
+        private const string PART_ShowEG = "PART_ShowEG";
+        private const string PART_ShowLE = "PART_ShowLE";
+
         private const string PART_ShowUnknown = "PART_ShowUnknown";
 
         #endregion
@@ -41,6 +45,8 @@ namespace ScalableEmitterEditorPlugin
         private ColumnDefinition emitterStackColumn;
         private Button refreshButton;
         private ToggleButton autoRefreshButton;
+        private ToggleButton showEGButton;
+        private ToggleButton showLEButton;
         private ToggleButton showUnknownButton;
 
 
@@ -89,6 +95,11 @@ namespace ScalableEmitterEditorPlugin
 
             autoRefreshButton = GetTemplateChild(PART_AutoRefresh) as ToggleButton;
 
+            showEGButton = GetTemplateChild(PART_ShowEG) as ToggleButton;
+            showEGButton.Click += RefreshButton_Click;
+            showLEButton = GetTemplateChild(PART_ShowLE) as ToggleButton;
+            showLEButton.Click += RefreshButton_Click;
+
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
             showUnknownButton.Click += RefreshButton_Click;
 
@@ -122,7 +133,7 @@ namespace ScalableEmitterEditorPlugin
             foreach (dynamic component in obj.Object.Internal.Components) {
                 if (component.Internal == null) continue;
 
-                if (component.Internal.GetType().Name == "EmitterGraphEntityData") {
+                if (component.Internal.GetType().Name == "EmitterGraphEntityData" && showEGButton.IsChecked) {
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
 
                     EmitterStackItems.Add(new EmitterStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
@@ -155,7 +166,7 @@ namespace ScalableEmitterEditorPlugin
                     }
                 }
 
-                if (component.Internal.GetType().Name == "LightEffectEntityData") {
+                if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {
                     EmitterStackItems.Add(new EmitterStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
 
                     EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
