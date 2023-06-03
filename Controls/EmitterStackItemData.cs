@@ -30,7 +30,7 @@ namespace ScalableEmitterEditorPlugin
         public Visibility HeaderVisiblity { get; set; }
         public Visibility ValuesVisiblity { get; set; }
 
-        public Visibility WVisiblity { get; set; }
+        public GridLength WWidth { get; set; } = new GridLength(1, GridUnitType.Star);
 
         public string ItemToolTip { get; set; }
 
@@ -193,7 +193,7 @@ namespace ScalableEmitterEditorPlugin
                 }
 
                 if (obj.GetType().Name == "Vec3") {
-                    WVisiblity = Visibility.Collapsed;
+                    WWidth  = new GridLength(0, GridUnitType.Star);
                 }
             }
         }

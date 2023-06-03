@@ -36,34 +36,6 @@
                                             <Border Background="{StaticResource ControlBackground}" Margin="0,0,0,0">
                                                 <Grid>
                                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0">
-
-                                                        <ToggleButton Visibility="Collapsed" Width="22" Height="22" x:Name="PART_EmitterQualityLow" Margin="0" ToolTip="Low" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True">
-                                                            <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock x:Name="PART_EmitterQualityLowText" Text="L" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
-                                                            </ToggleButton.Content>
-                                                        </ToggleButton>
-
-                                                        <ToggleButton Visibility="Collapsed" Width="22" x:Name="PART_EmitterQualityMedium" Margin="0" ToolTip="Medium" Style="{StaticResource {x:Type ToggleButton}}">
-                                                            <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="M" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
-                                                            </ToggleButton.Content>
-                                                        </ToggleButton>
-
-                                                        <ToggleButton Visibility="Collapsed" Width="22" x:Name="PART_EmitterQualityHigh" Margin="0" ToolTip="High" Style="{StaticResource {x:Type ToggleButton}}">
-                                                            <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="H" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
-                                                            </ToggleButton.Content>
-                                                        </ToggleButton>
-
                                                         <ToggleButton x:Name="PART_ShowUnknown" Width="22" Margin="0" ToolTip="Show Unknown Properties" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
@@ -142,33 +114,38 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:EmitterStackItem}">
-                    <Grid Margin="0.5" HorizontalAlignment="Center" ToolTip="{Binding Path=ItemToolTip}">
+                    <Grid Margin="1" HorizontalAlignment="Center" ToolTip="{Binding Path=ItemToolTip}">
                         <UniformGrid>
                             <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Center" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" Margin="0 8 0 0"/>
 
-                            <StackPanel Orientation="Vertical" Background="#FF454545" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2" >
-                                    <StackPanel Orientation="Vertical" Width="100" Margin="2">
-                                        <TextBlock Text="{Binding Path=XName}" ToolTip="{Binding Path=XName}" HorizontalAlignment="Left"/>
-                                        <TextBox Text="{Binding Path=XValue, Mode=TwoWay}"/>
-                                    </StackPanel>
+                            <Grid Background="#FF454545" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="{Binding Path=WWidth, Mode=TwoWay}"/>
+                                </Grid.ColumnDefinitions>
 
-                                    <StackPanel Orientation="Vertical" Width="100" Margin="2">
-                                        <TextBlock Text="{Binding Path=YName}" ToolTip="{Binding Path=YName}" HorizontalAlignment="Left"/>
-                                        <TextBox Text="{Binding Path=YValue, Mode=TwoWay}"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Vertical" Width="100" Margin="2">
-                                        <TextBlock Text="{Binding Path=ZName}" ToolTip="{Binding Path=ZName}" HorizontalAlignment="Left"/>
-                                        <TextBox Text="{Binding Path=ZValue, Mode=TwoWay}"/>
-                                    </StackPanel>
-
-                                    <StackPanel Orientation="Vertical" Width="100" Margin="2" Visibility="{Binding Path=WVisiblity, Mode=TwoWay}">
-                                        <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Left"/>
-                                        <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
-                                    </StackPanel>
+                                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="2">
+                                    <TextBlock Text="{Binding Path=XName}" ToolTip="{Binding Path=XName}" HorizontalAlignment="Left"/>
+                                    <TextBox Text="{Binding Path=XValue, Mode=TwoWay}"/>
                                 </StackPanel>
-                            </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="2">
+                                    <TextBlock Text="{Binding Path=YName}" ToolTip="{Binding Path=YName}" HorizontalAlignment="Left"/>
+                                    <TextBox Text="{Binding Path=YValue, Mode=TwoWay}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Orientation="Vertical" Margin="2">
+                                    <TextBlock Text="{Binding Path=ZName}" ToolTip="{Binding Path=ZName}" HorizontalAlignment="Left"/>
+                                    <TextBox Text="{Binding Path=ZValue, Mode=TwoWay}"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3" Orientation="Vertical" Margin="2">
+                                    <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Left"/>
+                                    <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
+                                </StackPanel>
+                            </Grid>
                         </UniformGrid>
                         
                     </Grid>
