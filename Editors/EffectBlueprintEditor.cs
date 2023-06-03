@@ -175,15 +175,27 @@ namespace ScalableEmitterEditorPlugin
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {
-                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
+                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {component.Internal.Light.Internal?.__Id}"));
 
                     if (showTransformsButton.IsChecked == true) {
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
                     }
 
+                    if (component.Internal.Light.Internal == null) continue;
+
                     EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
                     
                     EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "Intensity", pgAsset));
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationRadius", pgAsset));
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationOffset", pgAsset));
+
+                    if (component.Internal.Light.Internal.GetType().Name == "PbrTubeLightEntityData") {
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "TubeRadius", pgAsset));
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "TubeWidth", pgAsset));
+                    }
+                    if (component.Internal.Light.Internal.GetType().Name == "PbrSphereLightEntityData") {
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "SphereRadius", pgAsset));
+                    }
                 }
                 count++;
             }
