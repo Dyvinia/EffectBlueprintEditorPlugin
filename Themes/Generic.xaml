@@ -25,60 +25,53 @@
                         </Grid.ColumnDefinitions>
 
                         <ctrl:FrostyDockablePanel x:Name="PART_EmitterStackPanel" Grid.Row="1" Grid.Column="0" TitleBarVisible="False" Margin="0" BorderVisible="True">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <Border Background="#FF141414">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="0"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Border Margin="1">
-                                            <DockPanel>
-                                                <Border Background="{StaticResource ControlBackground}" Margin="0,0,0,0">
-                                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0">
 
-                                                        <RadioButton Width="22" Height="22" x:Name="PART_EmitterQualityLow" Margin="0" ToolTip="Low" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True">
-                                                            <RadioButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock x:Name="PART_EmitterQualityLowText" Text="L" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
-                                                            </RadioButton.Content>
-                                                        </RadioButton>
+                            <Border Background="#FF141414">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <!--<RowDefinition Height="26"/>-->
+                                        <RowDefinition Height="0"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Border Margin="1">
+                                        <DockPanel>
+                                            <Border Background="{StaticResource ControlBackground}" Margin="0,0,0,0">
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0">
 
-                                                        <RadioButton Width="22" x:Name="PART_EmitterQualityMedium" Margin="0" ToolTip="Medium" Style="{StaticResource {x:Type ToggleButton}}">
-                                                            <RadioButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="M" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
-                                                            </RadioButton.Content>
-                                                        </RadioButton>
+                                                    <ToggleButton Width="22" Height="22" x:Name="PART_EmitterQualityLow" Margin="0" ToolTip="Low" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True">
+                                                        <ToggleButton.Content>
+                                                            <Grid>
+                                                                <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                <TextBlock x:Name="PART_EmitterQualityLowText" Text="L" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </ToggleButton.Content>
+                                                    </ToggleButton>
 
-                                                        <RadioButton Width="22" x:Name="PART_EmitterQualityHigh" Margin="0" ToolTip="High" Style="{StaticResource {x:Type ToggleButton}}">
-                                                            <RadioButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="H" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
-                                                            </RadioButton.Content>
-                                                        </RadioButton>
+                                                    <ToggleButton Width="22" x:Name="PART_EmitterQualityMedium" Margin="0" ToolTip="Medium" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton.Content>
+                                                            <Grid>
+                                                                <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                <TextBlock Text="M" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </ToggleButton.Content>
+                                                    </ToggleButton>
 
-                                                        <RadioButton Width="22" x:Name="PART_EmitterQualityUltra" Margin="0" ToolTip="Ultra" Style="{StaticResource {x:Type ToggleButton}}">
-                                                            <RadioButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="U" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
-                                                            </RadioButton.Content>
-                                                        </RadioButton>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DockPanel>
-                                        </Border>
+                                                    <ToggleButton Width="22" x:Name="PART_EmitterQualityHigh" Margin="0" ToolTip="High" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton.Content>
+                                                            <Grid>
+                                                                <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                <TextBlock Text="H" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                            </Grid>
+                                                        </ToggleButton.Content>
+                                                    </ToggleButton>
+                                                </StackPanel>
+                                            </Border>
+                                        </DockPanel>
+                                    </Border>
 
 
-                                        <Grid HorizontalAlignment="Center" Grid.Row="1">
+                                    <Grid HorizontalAlignment="Stretch" Grid.Row="1">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <ItemsControl x:Name="PART_EmitterStack">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
@@ -93,12 +86,12 @@
                                                     </ItemsPanelTemplate>
                                                 </ItemsControl.ItemsPanel>
                                             </ItemsControl>
-                                        </Grid>
-
+                                        </ScrollViewer>
                                     </Grid>
-                                </Border>
-                            </ScrollViewer>
-                            
+
+                                </Grid>
+                            </Border>
+
                         </ctrl:FrostyDockablePanel>
 
                         <GridSplitter Margin="2,0,0,0" Background="Transparent" VerticalAlignment="Stretch" Width="3" ResizeDirection="Columns"/>
