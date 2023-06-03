@@ -148,32 +148,35 @@
                             <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Center" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" Margin="0 8 0 0"/>
 
                             <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="{Binding Path=WWidth, Mode=TwoWay}"/>
-                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="{Binding Path=WWidth, Mode=TwoWay}"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="2">
-                                    <TextBlock Text="{Binding Path=XName}" ToolTip="{Binding Path=XName}" HorizontalAlignment="Left"/>
-                                    <TextBox Text="{Binding Path=XValue, Mode=TwoWay}"/>
-                                </StackPanel>
+                                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="2">
+                                        <TextBlock Text="{Binding Path=XName}" ToolTip="{Binding Path=XName}" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Path=XValue, Mode=TwoWay}"/>
+                                    </StackPanel>
 
-                                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0 2 2 2">
-                                    <TextBlock Text="{Binding Path=YName}" ToolTip="{Binding Path=YName}" HorizontalAlignment="Left"/>
-                                    <TextBox Text="{Binding Path=YValue, Mode=TwoWay}"/>
-                                </StackPanel>
+                                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0 2 2 2">
+                                        <TextBlock Text="{Binding Path=YName}" ToolTip="{Binding Path=YName}" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Path=YValue, Mode=TwoWay}"/>
+                                    </StackPanel>
 
-                                <StackPanel Grid.Column="2" Orientation="Vertical" Margin="0 2 2 2">
-                                    <TextBlock Text="{Binding Path=ZName}" ToolTip="{Binding Path=ZName}" HorizontalAlignment="Left"/>
-                                    <TextBox Text="{Binding Path=ZValue, Mode=TwoWay}"/>
-                                </StackPanel>
+                                    <StackPanel Grid.Column="2" Orientation="Vertical" Margin="0 2 2 2">
+                                        <TextBlock Text="{Binding Path=ZName}" ToolTip="{Binding Path=ZName}" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Path=ZValue, Mode=TwoWay}"/>
+                                    </StackPanel>
 
-                                <StackPanel Grid.Column="3" Orientation="Vertical" Margin="0 2 2 2">
-                                    <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Left"/>
-                                    <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
-                                </StackPanel>
+                                    <StackPanel Grid.Column="3" Orientation="Vertical" Margin="0 2 2 2">
+                                        <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left" Margin="2"/>
                             </Grid>
 
                             <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=SingleVisiblity, Mode=TwoWay}" Width="420">
