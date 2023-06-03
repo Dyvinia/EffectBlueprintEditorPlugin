@@ -56,6 +56,15 @@
 
                                                         <Border BorderThickness="0.5" Margin="1" BorderBrush="{StaticResource ListBackground}"/>
 
+                                                        <ToggleButton x:Name="PART_ShowTransforms" Width="22" Margin="0" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock Text="T" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
+
                                                         <ToggleButton x:Name="PART_ShowUnknown" Width="22" Margin="0" ToolTip="Show Unknown Properties" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>

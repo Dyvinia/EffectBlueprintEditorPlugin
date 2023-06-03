@@ -33,6 +33,7 @@ namespace ScalableEmitterEditorPlugin
         private const string PART_ShowEG = "PART_ShowEG";
         private const string PART_ShowLE = "PART_ShowLE";
 
+        private const string PART_ShowTransforms = "PART_ShowTransforms";
         private const string PART_ShowUnknown = "PART_ShowUnknown";
 
         #endregion
@@ -47,12 +48,12 @@ namespace ScalableEmitterEditorPlugin
         private ToggleButton autoRefreshButton;
         private ToggleButton showEGButton;
         private ToggleButton showLEButton;
+        private ToggleButton showTransformsButton;
         private ToggleButton showUnknownButton;
 
-
-        private bool editor = true;
-
         #endregion
+
+        private bool showEditor = true;
 
         public ObservableCollection<EmitterStackItemData> EmitterStackItems { get; set; }
 
@@ -100,6 +101,9 @@ namespace ScalableEmitterEditorPlugin
             showLEButton = GetTemplateChild(PART_ShowLE) as ToggleButton;
             showLEButton.Click += RefreshButton_Click;
 
+            showTransformsButton = GetTemplateChild(PART_ShowTransforms) as ToggleButton;
+            showTransformsButton.Click += RefreshButton_Click;
+
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
             showUnknownButton.Click += RefreshButton_Click;
 
@@ -126,7 +130,7 @@ namespace ScalableEmitterEditorPlugin
 
         void GetEmitterProcessors(dynamic obj)
         {
-            if (!editor) return;
+            if (!showEditor) return;
             
             EmitterStackItems.Clear();
             int count = 0;
@@ -159,6 +163,10 @@ namespace ScalableEmitterEditorPlugin
                     }
                     catch { }
 
+                    if (showTransformsButton.IsChecked == true) {
+                        EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
+                    }
+
                     foreach (dynamic param in component.Internal.EmitterGraphParams) {
                         if (vsfParams.TryGetValue(param.PropertyId, out string[] _) || showUnknownButton.IsChecked) {
                             EmitterStackItems.Add(new EmitterStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
@@ -168,6 +176,10 @@ namespace ScalableEmitterEditorPlugin
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {
                     EmitterStackItems.Add(new EmitterStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
+
+                    if (showTransformsButton.IsChecked == true) {
+                        EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
+                    }
 
                     EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
                 }
@@ -205,7 +217,7 @@ namespace ScalableEmitterEditorPlugin
 
         private void DisableEditor()
         {
-            editor = false;
+            showEditor = false;
             pgAsset.Object = asset.RootObject;
             EmitterStackItems.Clear();
             emitterStackColumn.Width = new GridLength(0);
@@ -213,7 +225,7 @@ namespace ScalableEmitterEditorPlugin
 
         private void EnableEditor()
         {
-            editor = true;
+            showEditor = true;
             dynamic obj = asset.RootObject;
             pgAsset.Object = obj.Object.Internal;
             GetEmitterProcessors(obj);
