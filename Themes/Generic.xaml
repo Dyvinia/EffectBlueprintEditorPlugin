@@ -145,22 +145,22 @@
                             <StackPanel Orientation="Vertical" Background="#FF454545" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2" >
                                     <StackPanel Orientation="Vertical" Width="100" Margin="2">
-                                        <TextBlock Text="{Binding Path=XName}" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Path=XName}" ToolTip="{Binding Path=XName}" HorizontalAlignment="Center"/>
                                         <TextBox Text="{Binding Path=XValue, Mode=TwoWay}"/>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Vertical" Width="100" Margin="2">
-                                        <TextBlock Text="{Binding Path=YName}" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Path=YName}" ToolTip="{Binding Path=YName}" HorizontalAlignment="Center"/>
                                         <TextBox Text="{Binding Path=YValue, Mode=TwoWay}"/>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Vertical" Width="100" Margin="2">
-                                        <TextBlock Text="{Binding Path=ZName}" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Path=ZName}" ToolTip="{Binding Path=ZName}" HorizontalAlignment="Center"/>
                                         <TextBox Text="{Binding Path=ZValue, Mode=TwoWay}"/>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Vertical" Width="100" Margin="2" Visibility="{Binding Path=WVisiblity, Mode=TwoWay}">
-                                        <TextBlock Text="{Binding Path=WName}" HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Center"/>
                                         <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
                                     </StackPanel>
                                 </StackPanel>
