@@ -147,7 +147,7 @@
                         <UniformGrid>
                             <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Center" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" Margin="0 8 0 0"/>
 
-                            <Grid Background="#FF454545" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
+                            <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -176,7 +176,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Background="#FF454545" HorizontalAlignment="Center" Visibility="{Binding Path=SingleVisiblity, Mode=TwoWay}" Width="420">
+                            <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=SingleVisiblity, Mode=TwoWay}" Width="420">
                                 <StackPanel Orientation="Vertical" Margin="2">
                                     <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left"/>
                                     <TextBox Text="{Binding Path=SingleValue, Mode=TwoWay}"/>
