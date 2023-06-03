@@ -12,7 +12,7 @@ using System.Windows.Controls;
 namespace ScalableEmitterEditorPlugin
 {
     [TemplatePart(Name = PART_StackCanvas, Type = typeof(Canvas))]
-    public class EmitterStackItem : UserControl
+    public class EffectStackItem : UserControl
     {
 
         #region -- Part Names --
@@ -23,12 +23,12 @@ namespace ScalableEmitterEditorPlugin
 
         #region -- Constructors --
 
-        static EmitterStackItem()
+        static EffectStackItem()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(EmitterStackItem), new FrameworkPropertyMetadata(typeof(EmitterStackItem)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(EffectStackItem), new FrameworkPropertyMetadata(typeof(EffectStackItem)));
         }
 
-        public EmitterStackItem()
+        public EffectStackItem()
         {
         }
 

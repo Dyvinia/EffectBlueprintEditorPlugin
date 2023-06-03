@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace ScalableEmitterEditorPlugin
 {
-    public class EmitterStackItemData : BaseViewModel
+    public class EffectStackItemData : BaseViewModel
     {
 
         #region -- Fields --
@@ -29,6 +29,7 @@ namespace ScalableEmitterEditorPlugin
 
         public Visibility HeaderVisiblity { get; set; }
         public Visibility ValuesVisiblity { get; set; }
+        public Visibility SingleVisiblity { get; set; } = Visibility.Collapsed;
 
         public GridLength WWidth { get; set; } = new GridLength(1, GridUnitType.Star);
 
@@ -136,11 +137,24 @@ namespace ScalableEmitterEditorPlugin
             }
         }
 
+        public float SingleValue {
+            get {
+                return Value;
+            }
+            set {
+                if (Value != value) {
+                    Value = value;
+                    RaisePropertyChanged("SingleValue");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+
         #endregion
 
         #region -- Constructors --
 
-        public EmitterStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, string header = null)
+        public EffectStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, string header = null)
         {
             propertyGrid = pg;
             Value = obj;
@@ -194,6 +208,11 @@ namespace ScalableEmitterEditorPlugin
 
                 if (obj.GetType().Name == "Vec3") {
                     WWidth  = new GridLength(0, GridUnitType.Star);
+                }
+
+                if (obj.GetType().Name == "Single") {
+                    ValuesVisiblity = Visibility.Collapsed;
+                    SingleVisiblity = Visibility.Visible;
                 }
             }
         }

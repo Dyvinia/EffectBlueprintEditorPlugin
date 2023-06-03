@@ -55,7 +55,7 @@ namespace ScalableEmitterEditorPlugin
 
         private bool showEditor = true;
 
-        public ObservableCollection<EmitterStackItemData> EmitterStackItems { get; set; }
+        public ObservableCollection<EffectStackItemData> EmitterStackItems { get; set; }
 
         #region -- Constructors --
 
@@ -67,13 +67,13 @@ namespace ScalableEmitterEditorPlugin
         public EffectBlueprintEditor()
             : base(null)
         {
-            EmitterStackItems = new ObservableCollection<EmitterStackItemData>();
+            EmitterStackItems = new ObservableCollection<EffectStackItemData>();
         }
 
         public EffectBlueprintEditor(ILogger inLogger)
             : base(inLogger)
         {
-            EmitterStackItems = new ObservableCollection<EmitterStackItemData>();
+            EmitterStackItems = new ObservableCollection<EffectStackItemData>();
         }
 
         #endregion
@@ -140,7 +140,7 @@ namespace ScalableEmitterEditorPlugin
                 if (component.Internal.GetType().Name == "EmitterGraphEntityData" && showEGButton.IsChecked) {
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
 
-                    EmitterStackItems.Add(new EmitterStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
+                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
 
                     Dictionary<int, string[]> vsfParams = new Dictionary<int, string[]>();
                     try {
@@ -164,24 +164,25 @@ namespace ScalableEmitterEditorPlugin
                     catch { }
 
                     if (showTransformsButton.IsChecked == true) {
-                        EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
+                        EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
                     }
 
                     foreach (dynamic param in component.Internal.EmitterGraphParams) {
                         if (vsfParams.TryGetValue(param.PropertyId, out string[] _) || showUnknownButton.IsChecked) {
-                            EmitterStackItems.Add(new EmitterStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
+                            EmitterStackItems.Add(new EffectStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
                         }
                     }
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {
-                    EmitterStackItems.Add(new EmitterStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
+                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
 
                     if (showTransformsButton.IsChecked == true) {
-                        EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
+                        EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
                     }
 
-                    EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
+                    EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
+                    //EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Intensity, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Intensity" } } }));
                 }
                 count++;
             }

@@ -102,7 +102,7 @@
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Grid>
-                                                            <local:EmitterStackItem Panel.ZIndex="1"/>
+                                                            <local:EffectStackItem Panel.ZIndex="1"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
@@ -139,10 +139,10 @@
     </Style>
 
     <!-- EmitterStackItem -->
-    <Style TargetType="{x:Type local:EmitterStackItem}">
+    <Style TargetType="{x:Type local:EffectStackItem}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:EmitterStackItem}">
+                <ControlTemplate TargetType="{x:Type local:EffectStackItem}">
                     <Grid Margin="1" HorizontalAlignment="Center" ToolTip="{Binding Path=ItemToolTip}">
                         <UniformGrid>
                             <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Center" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" Margin="0 8 0 0"/>
@@ -175,6 +175,14 @@
                                     <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
                                 </StackPanel>
                             </Grid>
+
+                            <Grid Background="#FF454545" HorizontalAlignment="Center" Visibility="{Binding Path=SingleVisiblity, Mode=TwoWay}" Width="420">
+                                <StackPanel Orientation="Vertical" Margin="2">
+                                    <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left"/>
+                                    <TextBox Text="{Binding Path=SingleValue, Mode=TwoWay}"/>
+                                </StackPanel>
+                            </Grid>
+
                         </UniformGrid>
                         
                     </Grid>
