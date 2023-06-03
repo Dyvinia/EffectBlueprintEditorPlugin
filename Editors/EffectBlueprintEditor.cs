@@ -103,6 +103,9 @@ namespace ScalableEmitterEditorPlugin
             pgAsset.Object = obj.Object.Internal;
 
             emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
+
+            if (EmitterStackItems.Count == 0)
+                DisableEditor();
         }
 
         void GetEmitterProcessors(dynamic obj)
@@ -177,12 +180,12 @@ namespace ScalableEmitterEditorPlugin
         {
             return new List<ToolbarItem>()
             {
-                new ToolbarItem("Editor", "Editor View", "", new RelayCommand((object state) => { EnableEditor(this); })),
-                new ToolbarItem("Standard", "Standard View", "", new RelayCommand((object state) => { DisableEditor(this); }))
+                new ToolbarItem("Editor", "Editor View", "", new RelayCommand((object state) => { EnableEditor(); })),
+                new ToolbarItem("Standard", "Standard View", "", new RelayCommand((object state) => { DisableEditor(); }))
             };
         }
 
-        private void DisableEditor(object sender)
+        private void DisableEditor()
         {
             editor = false;
             pgAsset.Object = asset.RootObject;
@@ -190,7 +193,7 @@ namespace ScalableEmitterEditorPlugin
             emitterStackColumn.Width = new GridLength(0);
         }
 
-        private void EnableEditor(object sender)
+        private void EnableEditor()
         {
             editor = true;
             dynamic obj = asset.RootObject;

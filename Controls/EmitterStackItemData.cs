@@ -193,10 +193,6 @@ namespace ScalableEmitterEditorPlugin
                 }
 
                 if (obj.GetType().Name == "Vec3") {
-                    XName = "";
-                    YName = egParams[0];
-                    ZName = "";
-                    WName = "";
                     WVisiblity = Visibility.Collapsed;
                 }
             }
