@@ -15,11 +15,6 @@ namespace ScalableEmitterEditorPlugin
     [TemplatePart(Name = PART_EmitterStackPanel, Type = typeof(FrostyDockablePanel))]
     [TemplatePart(Name = PART_EmitterStack, Type = typeof(ItemsControl))]
     [TemplatePart(Name = PART_EmitterStackColumn, Type = typeof(ColumnDefinition))]
-    [TemplatePart(Name = PART_EmitterQualityLowText, Type = typeof(TextBlock))]
-    [TemplatePart(Name = PART_EmitterQualityLow, Type = typeof(RadioButton))]
-    [TemplatePart(Name = PART_EmitterQualityMedium, Type = typeof(RadioButton))]
-    [TemplatePart(Name = PART_EmitterQualityHigh, Type = typeof(RadioButton))]
-    [TemplatePart(Name = PART_EmitterQualityUltra, Type = typeof(RadioButton))]
     public class EffectBlueprintEditor : FrostyAssetEditor
     {
 
@@ -30,12 +25,6 @@ namespace ScalableEmitterEditorPlugin
         private const string PART_EmitterStack = "PART_EmitterStack";
         private const string PART_EmitterStackColumn = "PART_EmitterStackColumn";
 
-        private const string PART_EmitterQualityLowText = "PART_EmitterQualityLowText";
-        private const string PART_EmitterQualityLow = "PART_EmitterQualityLow";
-        private const string PART_EmitterQualityMedium = "PART_EmitterQualityMedium";
-        private const string PART_EmitterQualityHigh = "PART_EmitterQualityHigh";
-        private const string PART_EmitterQualityUltra = "PART_EmitterQualityUltra";
-
         #endregion
 
         #region -- Parts --
@@ -45,8 +34,6 @@ namespace ScalableEmitterEditorPlugin
         private ItemsControl emitterStack;
         private ColumnDefinition emitterStackColumn;
 
-        private TextBlock emitterQualityLowText;
-        private RadioButton emitterQualityLow;
 
         private bool editor = true;
 
@@ -107,13 +94,15 @@ namespace ScalableEmitterEditorPlugin
             if (!editor) return;
             
             EmitterStackItems.Clear();
+            int count = 0;
             foreach (dynamic component in obj.Object.Internal.Components) {
                 if (((object)component.Internal).GetType().Name == "EmitterGraphEntityData") {
-                    EmitterStackItems.Add(new EmitterStackItemData(component.Internal.EmitterGraphParams[0], pgAsset, component.Internal.__Id));
+                    EmitterStackItems.Add(new EmitterStackItemData(component.Internal.EmitterGraphParams[0], pgAsset, $"[{count}] {component.Internal.__Id}"));
                     foreach (dynamic param in component.Internal.EmitterGraphParams) {
                         EmitterStackItems.Add(new EmitterStackItemData(param, pgAsset));
                     }
                 }
+                count++;
             }
         }
 
