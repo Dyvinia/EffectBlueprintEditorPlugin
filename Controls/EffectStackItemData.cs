@@ -14,14 +14,8 @@ namespace ScalableEmitterEditorPlugin
         #region -- Fields --
 
         public dynamic Value;
-        public object EvaluatorObj;
 
         private FrostyPropertyGrid propertyGrid;
-
-        private string xName;
-        private string yName;
-        private string zName;
-        private string wName;
 
         #endregion
 
@@ -37,53 +31,11 @@ namespace ScalableEmitterEditorPlugin
 
         public string HeaderText { get; set; }
 
-        public string XName {
-            get {
-                return xName;
-            }
-            set {
-                if (xName != value) {
-                    xName = value;
-                    RaisePropertyChanged("XName");
-                }
-            }
-        }
-
-        public string YName {
-            get {
-                return yName;
-            }
-            set {
-                if (yName != value) {
-                    yName = value;
-                    RaisePropertyChanged("YName");
-                }
-            }
-        }
-
-        public string ZName {
-            get {
-                return zName;
-            }
-            set {
-                if (zName != value) {
-                    zName = value;
-                    RaisePropertyChanged("ZName");
-                }
-            }
-        }
-
-        public string WName {
-            get {
-                return wName;
-            }
-            set {
-                if (wName != value) {
-                    wName = value;
-                    RaisePropertyChanged("WName");
-                }
-            }
-        }
+        public string XName { get; set; }
+        public string YName { get; set; }
+        public string ZName { get; set; }
+        public string WName { get; set; }
+        public string SingleName { get; set; }
 
         public float XValue {
             get {
@@ -139,11 +91,11 @@ namespace ScalableEmitterEditorPlugin
 
         public float SingleValue {
             get {
-                return Value;
+                return Value.GetType().GetProperty(SingleName).GetValue(Value, null);
             }
             set {
-                if (Value != value) {
-                    Value = value;
+                if (Value.GetType().GetProperty(SingleName).GetValue(Value, null) != value) {
+                    Value.GetType().GetProperty(SingleName).SetValue(Value, value, null);
                     RaisePropertyChanged("SingleValue");
                     propertyGrid.Modified = true;
                 }
@@ -209,12 +161,18 @@ namespace ScalableEmitterEditorPlugin
                 if (obj.GetType().Name == "Vec3") {
                     WWidth  = new GridLength(0, GridUnitType.Star);
                 }
-
-                if (obj.GetType().Name == "Single") {
-                    ValuesVisiblity = Visibility.Collapsed;
-                    SingleVisiblity = Visibility.Visible;
-                }
             }
+        }
+
+        public EffectStackItemData(dynamic obj, string valueName, FrostyPropertyGrid pg) {
+            propertyGrid = pg;
+            Value = obj;
+
+            SingleName = valueName;
+
+            HeaderVisiblity = Visibility.Collapsed;
+            ValuesVisiblity = Visibility.Collapsed;
+            SingleVisiblity = Visibility.Visible;
         }
 
         #endregion

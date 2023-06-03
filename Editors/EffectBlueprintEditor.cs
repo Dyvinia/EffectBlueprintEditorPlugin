@@ -182,7 +182,8 @@ namespace ScalableEmitterEditorPlugin
                     }
 
                     EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
-                    //EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Intensity, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Intensity" } } }));
+                    
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "Intensity", pgAsset));
                 }
                 count++;
             }
