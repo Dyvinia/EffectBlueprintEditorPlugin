@@ -147,10 +147,10 @@ namespace ScalableEmitterEditorPlugin
 
             ItemToolTip = propertyId != -1 ? propertyId.ToString() : null;
 
-            XName = "X";
-            YName = "Y";
-            ZName = "Z";
-            WName = "W";
+            XName = $"X [{propertyId}]";
+            YName = $"Y [{propertyId}]";
+            ZName = $"Z [{propertyId}]";
+            WName = $"W [{propertyId}]";
 
             if (header != null) {
                 HeaderText = header;

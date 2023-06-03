@@ -37,9 +37,9 @@
                                         <DockPanel>
                                             <Border Background="{StaticResource ControlBackground}" Margin="0,0,0,0">
                                                 <Grid>
-                                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0" Visibility="Collapsed">
+                                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0">
 
-                                                        <ToggleButton Width="22" Height="22" x:Name="PART_EmitterQualityLow" Margin="0" ToolTip="Low" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True">
+                                                        <ToggleButton Visibility="Collapsed" Width="22" Height="22" x:Name="PART_EmitterQualityLow" Margin="0" ToolTip="Low" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True">
                                                             <ToggleButton.Content>
                                                                 <Grid>
                                                                     <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
@@ -48,7 +48,7 @@
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
-                                                        <ToggleButton Width="22" x:Name="PART_EmitterQualityMedium" Margin="0" ToolTip="Medium" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton Visibility="Collapsed" Width="22" x:Name="PART_EmitterQualityMedium" Margin="0" ToolTip="Medium" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
                                                                     <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
@@ -57,11 +57,20 @@
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
-                                                        <ToggleButton Width="22" x:Name="PART_EmitterQualityHigh" Margin="0" ToolTip="High" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton Visibility="Collapsed" Width="22" x:Name="PART_EmitterQualityHigh" Margin="0" ToolTip="High" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
                                                                     <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
                                                                     <TextBlock Text="H" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
+
+                                                        <ToggleButton x:Name="PART_ShowUnknown" Width="22" Margin="0" ToolTip="Show Unknown Properties" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock Text="?" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                                 </Grid>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>

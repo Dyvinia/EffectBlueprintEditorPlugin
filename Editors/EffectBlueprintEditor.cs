@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using Frosty.Controls;
 using System.Linq;
+using System.Windows.Controls.Primitives;
 
 namespace ScalableEmitterEditorPlugin
 {
@@ -15,6 +16,7 @@ namespace ScalableEmitterEditorPlugin
     [TemplatePart(Name = PART_EmitterStack, Type = typeof(ItemsControl))]
     [TemplatePart(Name = PART_EmitterStackColumn, Type = typeof(ColumnDefinition))]
     [TemplatePart(Name = PART_Refresh, Type = typeof(Button))]
+    [TemplatePart(Name = PART_ShowUnknown, Type = typeof(ToggleButton))]
     public class EffectBlueprintEditor : FrostyAssetEditor
     {
 
@@ -25,6 +27,7 @@ namespace ScalableEmitterEditorPlugin
         private const string PART_EmitterStack = "PART_EmitterStack";
         private const string PART_EmitterStackColumn = "PART_EmitterStackColumn";
         private const string PART_Refresh = "PART_Refresh";
+        private const string PART_ShowUnknown = "PART_ShowUnknown";
 
         #endregion
 
@@ -35,6 +38,7 @@ namespace ScalableEmitterEditorPlugin
         private ItemsControl emitterStack;
         private ColumnDefinition emitterStackColumn;
         private Button refreshButton;
+        private ToggleButton showUnknownButton;
 
 
         private bool editor = true;
@@ -79,6 +83,9 @@ namespace ScalableEmitterEditorPlugin
 
             refreshButton = GetTemplateChild(PART_Refresh) as Button;
             refreshButton.Click += RefreshButton_Click;
+
+            showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
+            showUnknownButton.Click += RefreshButton_Click;
 
             Loaded += EmitterDocumentEditor_Loaded;
         }
@@ -134,7 +141,9 @@ namespace ScalableEmitterEditorPlugin
                     catch { }
 
                     foreach (dynamic param in component.Internal.EmitterGraphParams) {
-                        EmitterStackItems.Add(new EmitterStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
+                        if (vsfParams.TryGetValue(param.PropertyId, out string[] _) || showUnknownButton.IsChecked) {
+                            EmitterStackItems.Add(new EmitterStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
+                        }
                     }
                 }
 
