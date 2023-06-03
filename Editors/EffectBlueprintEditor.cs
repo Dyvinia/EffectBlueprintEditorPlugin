@@ -100,7 +100,7 @@ namespace ScalableEmitterEditorPlugin
                 if (component.Internal.GetType().Name == "EmitterGraphEntityData") {
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
 
-                    EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.EmitterGraphParams[0].Value, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
+                    EmitterStackItems.Add(new EmitterStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
 
                     Dictionary<int, string[]> vsfParams = new Dictionary<int, string[]>();
                     try {
@@ -131,7 +131,7 @@ namespace ScalableEmitterEditorPlugin
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData") {
-                    EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
+                    EmitterStackItems.Add(new EmitterStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
 
                     EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
                 }
