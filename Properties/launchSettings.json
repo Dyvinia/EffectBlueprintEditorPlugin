@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "EmitterDocumentEditorPlugin": {
+      "commandName": "Executable",
+      "executablePath": "D:\\Development\\repos\\Dyvinia\\FrostyToolsuite\\FrostyEditor\\bin\\Release\\Final\\FrostyEditor.exe",
+      "workingDirectory": "D:\\Development\\repos\\Dyvinia\\FrostyToolsuite\\FrostyEditor\\bin\\Release\\Final"
+    }
+  }
+}
