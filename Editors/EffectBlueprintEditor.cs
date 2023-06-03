@@ -16,6 +16,7 @@ namespace ScalableEmitterEditorPlugin
     [TemplatePart(Name = PART_EmitterStack, Type = typeof(ItemsControl))]
     [TemplatePart(Name = PART_EmitterStackColumn, Type = typeof(ColumnDefinition))]
     [TemplatePart(Name = PART_Refresh, Type = typeof(Button))]
+    [TemplatePart(Name = PART_AutoRefresh, Type = typeof(ToggleButton))]
     [TemplatePart(Name = PART_ShowUnknown, Type = typeof(ToggleButton))]
     public class EffectBlueprintEditor : FrostyAssetEditor
     {
@@ -27,6 +28,7 @@ namespace ScalableEmitterEditorPlugin
         private const string PART_EmitterStack = "PART_EmitterStack";
         private const string PART_EmitterStackColumn = "PART_EmitterStackColumn";
         private const string PART_Refresh = "PART_Refresh";
+        private const string PART_AutoRefresh = "PART_AutoRefresh";
         private const string PART_ShowUnknown = "PART_ShowUnknown";
 
         #endregion
@@ -38,6 +40,7 @@ namespace ScalableEmitterEditorPlugin
         private ItemsControl emitterStack;
         private ColumnDefinition emitterStackColumn;
         private Button refreshButton;
+        private ToggleButton autoRefreshButton;
         private ToggleButton showUnknownButton;
 
 
@@ -83,6 +86,8 @@ namespace ScalableEmitterEditorPlugin
 
             refreshButton = GetTemplateChild(PART_Refresh) as Button;
             refreshButton.Click += RefreshButton_Click;
+
+            autoRefreshButton = GetTemplateChild(PART_AutoRefresh) as ToggleButton;
 
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
             showUnknownButton.Click += RefreshButton_Click;
@@ -164,8 +169,10 @@ namespace ScalableEmitterEditorPlugin
 
         private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e)
         {
-            //GetEmitterProcessors(asset.RootObject);
-            refreshButton.IsEnabled = true;
+            if (autoRefreshButton.IsChecked == true)
+                GetEmitterProcessors(asset.RootObject);
+            else
+                refreshButton.IsEnabled = true;
         }
 
         private void EmitterStack_Loaded(object sender, RoutedEventArgs e)
