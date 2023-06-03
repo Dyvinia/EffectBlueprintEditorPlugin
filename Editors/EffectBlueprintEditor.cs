@@ -121,8 +121,6 @@ namespace ScalableEmitterEditorPlugin
 
         #region -- Toolbar --
 
-        bool[] activeQualityLevel = { true, false, false, false };
-
         public override List<ToolbarItem> RegisterToolbarItems()
         {
             return new List<ToolbarItem>()
@@ -134,8 +132,8 @@ namespace ScalableEmitterEditorPlugin
 
         private void DisableEditor(object sender)
         {
-            pgAsset.Object = asset.RootObject;
             editor = false;
+            pgAsset.Object = asset.RootObject;
             EmitterStackItems.Clear();
             emitterStackColumn.Width = new GridLength(0);
         }
