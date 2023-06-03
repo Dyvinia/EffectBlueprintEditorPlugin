@@ -82,10 +82,8 @@ namespace ScalableEmitterEditorPlugin
             pgAsset = GetTemplateChild(PART_AssetPropertyGrid) as FrostyPropertyGrid;
             pgAsset.OnModified += PgAsset_OnModified;
             emitterStackPanel = GetTemplateChild(PART_EmitterStackPanel) as FrostyDockablePanel;
-            //emitterStackPanel.MouseLeftButtonDown += EmitterStackPanel_MouseLeftButtonDown;
             emitterStack = GetTemplateChild(PART_EmitterStack) as ItemsControl;
             emitterStack.Loaded += EmitterStack_Loaded;
-            emitterStack.MouseLeftButtonDown += EmitterStack_MouseLeftButtonDown;
             emitterStack.ItemsSource = EmitterStackItems;
             emitterStackColumn = GetTemplateChild(PART_EmitterStackColumn) as ColumnDefinition;
             emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
@@ -134,138 +132,8 @@ namespace ScalableEmitterEditorPlugin
             dynamic obj = asset.RootObject;
         }
 
-        /*
-        private void EmitterStackPanel_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            DependencyObject visualHit = VisualTreeHelper.HitTest(emitterStackPanel, e.GetPosition(emitterStackPanel)).VisualHit;
-            while (visualHit != emitterStack && visualHit != null)
-            {
-                visualHit = VisualTreeHelper.GetParent(visualHit);
-            }
-
-            if (visualHit == emitterStack)
-            {
-                pgAsset.Object = 0;
-                pgAsset.Object = null;
-                //logger.Log("Clicked emitter stack");
-
-                for (int i = 0; i < emitterStack.Items.Count; i++)
-                {
-                    // go down the visual tree into the UniformGrid
-                    UIElement stackItemParent = (UIElement)emitterStack.ItemContainerGenerator.ContainerFromIndex(i);
-                    for (int k = 0; k < 4; k++)
-                    {
-                        stackItemParent = VisualTreeHelper.GetChild(stackItemParent, 0) as UIElement;
-                    }
-
-                    // go down the visual tree into the processor block
-                    UIElement proc = stackItemParent;
-                    for (int k = 0; k < 2; k++)
-                    {
-                        proc = VisualTreeHelper.GetChild(proc, 1 - k) as UIElement;
-                    }
-
-                    // go down the visual tree into the evaluator block
-                    UIElement eval = stackItemParent;
-                    for (int k = 0; k < 2; k++)
-                    {
-                        eval = VisualTreeHelper.GetChild(eval, 0) as UIElement;
-                    }
-
-                    if (proc != null)
-                    {
-                        if (proc.IsMouseOver)
-                        {
-                            EmitterStackItems[i].ProcessorSelected = true;
-                            pgAsset.SetClass(EmitterStackItems[i].EmitterItemObj);
-                            //logger.Log("Processor selected");
-                        }
-                        else
-                        {
-                            EmitterStackItems[i].ProcessorSelected = false;
-                            //logger.Log("Processor deselected");
-                        }
-                    }
-                    if (eval != null)
-                    {
-                        if (eval.IsMouseOver)
-                        {
-                            EmitterStackItems[i].EvaluatorSelected = true;
-                            pgAsset.SetClass(EmitterStackItems[i].EvaluatorObj);
-                            //logger.Log("Evaluator selected");
-                        }
-                        else
-                        {
-                            EmitterStackItems[i].EvaluatorSelected = false;
-                            //logger.Log("Evaluator deselected");
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // stop the property grid from being cleared if there isn't a stack being displayed
-                if (EmitterStackItems.Count > 0)
-                {
-                    foreach (EmitterStackItemData item in EmitterStackItems)
-                    {
-                        item.ProcessorSelected = false;
-                        item.EvaluatorSelected = false;
-                    }
-                    pgAsset.SetClass(EmitterStackItems[0].EmitterItemObj);
-                }
-            }
-        }*/
-
         private void EmitterStack_Loaded(object sender, RoutedEventArgs e)
         {
-        }
-
-        private void EmitterStack_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ///logger.Log("Clicked emitter stack");
-            ///for (int i = 0; i < emitterStack.Items.Count; i++)
-            ///{
-            ///    //ContentPresenter c = (ContentPresenter)emitterStack.ItemContainerGenerator.ContainerFromItem(emitterStack.Items[i]);
-            ///    //Border proc = c.ContentTemplate.FindName("PART_ProcessorBox", c) as Border;
-            ///    Border proc = ItemsControlHelpers.findElementInItemsControlItemAtIndex<Border>(emitterStack, i, "PART_ProcessorBox") as Border;
-            ///    Border eval = ItemsControlHelpers.findElementInItemsControlItemAtIndex<Border>(emitterStack, i, "PART_EvaluatorBox") as Border;
-            ///    //Border eval = c.ContentTemplate.FindName("PART_EvaluatorBox", c) as Border;
-            ///
-            ///    if (proc != null)
-            ///    {
-            ///        if (proc.IsMouseOver)
-            ///        {
-            ///            EmitterStackItems[i].ProcessorSelected = true;
-            ///            logger.Log("Processor selected");
-            ///        }
-            ///        else
-            ///        {
-            ///            EmitterStackItems[i].ProcessorSelected = false;
-            ///            logger.Log("Processor deselected");
-            ///        }
-            ///    }
-            ///    if (eval != null)
-            ///    {
-            ///        if (eval.IsMouseOver)
-            ///        {
-            ///            EmitterStackItems[i].EvaluatorSelected = true;
-            ///            logger.Log("Evaluator selected");
-            ///        }
-            ///        else
-            ///        {
-            ///            EmitterStackItems[i].EvaluatorSelected = false;
-            ///            logger.Log("Evaluator deselected");
-            ///        }
-            ///    }
-            ///
-            ///}
-            ///EmitterStackItem stackItem = emitterStack.InputHitTest(e.GetPosition(emitterStack)) as EmitterStackItem;
-            ///if (stackItem != null)
-            ///{
-            ///    emitterStack.Items.Contains(stackItem);
-            ///    logger.Log("passed hit test");
-            ///}
         }
 
         #endregion

@@ -151,38 +151,6 @@
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
-                            
-                            
-                            <Grid Visibility="Collapsed">
-                                
-                                <Border x:Name="PART_EvaluatorBox" BorderBrush="Transparent" BorderThickness="1" MinWidth="145" Height="21" Background="#FF454545" HorizontalAlignment="Right"
-                                Visibility="{Binding Path=EvaluatorVisible, Converter={StaticResource BooleanToVisibilityConverter}}" Panel.ZIndex="0">
-                                    <DockPanel>
-                                        <Polygon Points="0,0 10,9.5 0,19" Stroke="Transparent" Fill="White" DockPanel.Dock="Right"/>
-                                        <TextBlock x:Name="PART_EvaluatorText" Margin="25,0,25,0" Text="{Binding Path=EvaluatorText, Mode=TwoWay}" 
-                                           HorizontalAlignment="Left" VerticalAlignment="Center" DockPanel.Dock="Right" TextAlignment="Center"/>
-                                    </DockPanel>
-                                </Border>
-
-                                <!-- Evaluator selection border -->
-                                <Border x:Name="evalSelect" BorderBrush="White" BorderThickness="1" Background="Transparent" Width="{Binding ElementName=PART_EvaluatorBox, Path=ActualWidth}" 
-                                    Height="21" HorizontalAlignment="Right" Visibility="{Binding Path=EvaluatorSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    IsHitTestVisible="False">
-                                </Border>
-                            </Grid>
-
-                            <Grid Margin="-1,0,0,0" Visibility="Collapsed">
-                                <Border x:Name="PART_ProcessorBox" BorderBrush="Transparent" BorderThickness="1" MinWidth="145" Height="21" Background="#FF454545" HorizontalAlignment="Left">
-                                    <TextBlock x:Name="PART_ProcessorText" Margin="25,0,25,0" Text="{Binding Path=ProcessorText, Mode=TwoWay}" 
-                                           HorizontalAlignment="Left" VerticalAlignment="Center" TextAlignment="Center"/>
-                                </Border>
-
-                                <!-- Processor selection border -->
-                                <Border x:Name="procSelect" BorderBrush="White" BorderThickness="1" Background="Transparent" Width="{Binding ElementName=PART_ProcessorBox, Path=ActualWidth}" 
-                                    Height="21" HorizontalAlignment="Left" Visibility="{Binding Path=ProcessorSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                    IsHitTestVisible="False">
-                                </Border>
-                            </Grid>
                         </UniformGrid>
                         
                     </Grid>
