@@ -13,7 +13,7 @@ namespace ScalableEmitterEditorPlugin
 
         #region -- Fields --
 
-        public dynamic EmitterItemObj;
+        public dynamic Value;
         public object EvaluatorObj;
 
         private FrostyPropertyGrid propertyGrid;
@@ -29,6 +29,10 @@ namespace ScalableEmitterEditorPlugin
 
         public Visibility HeaderVisiblity { get; set; }
         public Visibility ValuesVisiblity { get; set; }
+
+        public Visibility WVisiblity { get; set; }
+
+        public string ItemToolTip { get; set; }
 
         public string HeaderText { get; set; }
 
@@ -82,11 +86,11 @@ namespace ScalableEmitterEditorPlugin
 
         public float XValue {
             get {
-                return EmitterItemObj.Value.x;
+                return Value.x;
             }
             set {
-                if (EmitterItemObj.Value.x != value) {
-                    EmitterItemObj.Value.x = value;
+                if (Value.x != value) {
+                    Value.x = value;
                     RaisePropertyChanged("XValue");
                     propertyGrid.Modified = true;
                 }
@@ -95,11 +99,11 @@ namespace ScalableEmitterEditorPlugin
 
         public float YValue {
             get {
-                return EmitterItemObj.Value.y;
+                return Value.y;
             }
             set {
-                if (EmitterItemObj.Value.y != value) {
-                    EmitterItemObj.Value.y = value;
+                if (Value.y != value) {
+                    Value.y = value;
                     RaisePropertyChanged("YValue");
                     propertyGrid.Modified = true;
                 }
@@ -108,11 +112,11 @@ namespace ScalableEmitterEditorPlugin
 
         public float ZValue {
             get {
-                return EmitterItemObj.Value.z;
+                return Value.z;
             }
             set {
-                if (EmitterItemObj.Value.z != value) {
-                    EmitterItemObj.Value.z = value;
+                if (Value.z != value) {
+                    Value.z = value;
                     RaisePropertyChanged("ZValue");
                     propertyGrid.Modified = true;
                 }
@@ -121,11 +125,11 @@ namespace ScalableEmitterEditorPlugin
 
         public float WValue {
             get {
-                return EmitterItemObj.Value.w;
+                return Value.w;
             }
             set {
-                if (EmitterItemObj.Value.w != value) {
-                    EmitterItemObj.Value.w = value;
+                if (Value.w != value) {
+                    Value.w = value;
                     RaisePropertyChanged("WValue");
                     propertyGrid.Modified = true;
                 }
@@ -136,16 +140,12 @@ namespace ScalableEmitterEditorPlugin
 
         #region -- Constructors --
 
-        /// <summary>
-        /// Initializes an instance of the <see cref="EmitterStackItemData"/> class with a referenced object.
-        /// </summary>
-        /// <param name="obj">The processor or evaluator that this item represents</param>
-        /// <param name="pg">The property grid to be updated</param>
-        /// <param name="header">Header item</param>
-        public EmitterStackItemData(dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, string header = null)
+        public EmitterStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, string header = null)
         {
             propertyGrid = pg;
-            EmitterItemObj = obj;
+            Value = obj;
+
+            ItemToolTip = propertyId != -1 ? propertyId.ToString() : null;
 
             XName = "X";
             YName = "Y";
@@ -159,7 +159,7 @@ namespace ScalableEmitterEditorPlugin
             else {
                 HeaderVisiblity = Visibility.Collapsed;
 
-                if (vsfParams.TryGetValue(obj.PropertyId, out string[] egParams)) {
+                if (vsfParams.TryGetValue(propertyId, out string[] egParams)) {
                     switch (egParams?.Length) {
                         // Assume Floatx4
                         case 4:
@@ -190,6 +190,14 @@ namespace ScalableEmitterEditorPlugin
                             WName = "";
                             break;
                     }
+                }
+
+                if (obj.GetType().Name == "Vec3") {
+                    XName = "";
+                    YName = egParams[0];
+                    ZName = "";
+                    WName = "";
+                    WVisiblity = Visibility.Collapsed;
                 }
             }
         }

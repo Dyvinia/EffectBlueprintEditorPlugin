@@ -7,11 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using Frosty.Controls;
-using System.Windows.Media;
-using System.Dynamic;
 using System.Linq;
-using System.Windows.Shapes;
-using System.Globalization;
 
 namespace ScalableEmitterEditorPlugin
 {
@@ -99,10 +95,12 @@ namespace ScalableEmitterEditorPlugin
             EmitterStackItems.Clear();
             int count = 0;
             foreach (dynamic component in obj.Object.Internal.Components) {
-                if (((object)component.Internal).GetType().Name == "EmitterGraphEntityData") {
+                if (component.Internal == null) continue;
+
+                if (component.Internal.GetType().Name == "EmitterGraphEntityData") {
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
 
-                    EmitterStackItems.Add(new EmitterStackItemData(component.Internal.EmitterGraphParams[0], pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
+                    EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.EmitterGraphParams[0].Value, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
 
                     Dictionary<int, string[]> vsfParams = new Dictionary<int, string[]>();
                     try {
@@ -128,8 +126,14 @@ namespace ScalableEmitterEditorPlugin
                     catch { }
 
                     foreach (dynamic param in component.Internal.EmitterGraphParams) {
-                        EmitterStackItems.Add(new EmitterStackItemData(param, pgAsset, vsfParams));
+                        EmitterStackItems.Add(new EmitterStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
                     }
+                }
+
+                if (component.Internal.GetType().Name == "LightEffectEntityData") {
+                    EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, null, $"[{count}] {component.Internal.__Id}"));
+
+                    EmitterStackItems.Add(new EmitterStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
                 }
                 count++;
             }
@@ -154,8 +158,8 @@ namespace ScalableEmitterEditorPlugin
         {
             return new List<ToolbarItem>()
             {
-                new ToolbarItem("Disable Editor", "", "", new RelayCommand((object state) => { DisableEditor(this); })),
-                new ToolbarItem("Show Editor", "", "", new RelayCommand((object state) => { EnableEditor(this); }))
+                new ToolbarItem("Editor", "Editor View", "", new RelayCommand((object state) => { EnableEditor(this); })),
+                new ToolbarItem("Standard", "Standard View", "", new RelayCommand((object state) => { DisableEditor(this); }))
             };
         }
 
