@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ScalableEmitterEditorPlugin
 {
@@ -25,6 +26,11 @@ namespace ScalableEmitterEditorPlugin
         #endregion
 
         #region -- Properties --
+
+        public Visibility HeaderVisiblity { get; set; }
+        public Visibility ValuesVisiblity { get; set; }
+
+        public string HeaderText { get; set; }
 
         public string XName {
             get {
@@ -81,7 +87,8 @@ namespace ScalableEmitterEditorPlugin
             set {
                 if (EmitterItemObj.Value.x != value) {
                     EmitterItemObj.Value.x = value;
-                    RaisePropertyChanged("XValueText");
+                    RaisePropertyChanged("XValue");
+                    propertyGrid.Modified = true;
                 }
             }
         }
@@ -93,7 +100,8 @@ namespace ScalableEmitterEditorPlugin
             set {
                 if (EmitterItemObj.Value.y != value) {
                     EmitterItemObj.Value.y = value;
-                    RaisePropertyChanged("YValueText");
+                    RaisePropertyChanged("YValue");
+                    propertyGrid.Modified = true;
                 }
             }
         }
@@ -105,7 +113,8 @@ namespace ScalableEmitterEditorPlugin
             set {
                 if (EmitterItemObj.Value.z != value) {
                     EmitterItemObj.Value.z = value;
-                    RaisePropertyChanged("ZValueText");
+                    RaisePropertyChanged("ZValue");
+                    propertyGrid.Modified = true;
                 }
             }
         }
@@ -117,7 +126,8 @@ namespace ScalableEmitterEditorPlugin
             set {
                 if (EmitterItemObj.Value.w != value) {
                     EmitterItemObj.Value.w = value;
-                    RaisePropertyChanged("WValueText");
+                    RaisePropertyChanged("WValue");
+                    propertyGrid.Modified = true;
                 }
             }
         }
@@ -132,15 +142,22 @@ namespace ScalableEmitterEditorPlugin
         /// <param name="obj">The processor or evaluator that this item represents</param>
         /// <param name="isRoot">Is this item the emitter base?</param>
         /// <param name="pg">The property grid to be updated</param>
-        public EmitterStackItemData(dynamic obj, bool isRoot, FrostyPropertyGrid pg)
+        public EmitterStackItemData(dynamic obj, FrostyPropertyGrid pg, string header = null)
         {
             propertyGrid = pg;
             EmitterItemObj = obj;
 
-            XName = "XX";
-            YName = "YY";
-            ZName = "ZZ";
-            WName = "WW";
+            XName = "X";
+            YName = "Y";
+            ZName = "Z";
+            WName = "W";
+
+            if (header != null) {
+                HeaderText = header;
+                ValuesVisiblity = Visibility.Collapsed;
+            }
+            else
+                HeaderVisiblity = Visibility.Collapsed;
         }
 
         #endregion

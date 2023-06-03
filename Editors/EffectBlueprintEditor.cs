@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using Frosty.Controls;
 using System.Windows.Media;
 using System.Dynamic;
-using Newtonsoft.Json;
 
 namespace ScalableEmitterEditorPlugin
 {
@@ -48,9 +47,8 @@ namespace ScalableEmitterEditorPlugin
 
         private TextBlock emitterQualityLowText;
         private RadioButton emitterQualityLow;
-        private RadioButton emitterQualityMedium;
-        private RadioButton emitterQualityHigh;
-        private RadioButton emitterQualityUltra;
+
+        private bool editor = true;
 
         #endregion
 
@@ -92,15 +90,6 @@ namespace ScalableEmitterEditorPlugin
             emitterStackColumn = GetTemplateChild(PART_EmitterStackColumn) as ColumnDefinition;
             emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
 
-            emitterQualityLowText = GetTemplateChild(PART_EmitterQualityLowText) as TextBlock;
-            emitterQualityLow = GetTemplateChild(PART_EmitterQualityLow) as RadioButton;
-            emitterQualityLow.Checked += LowButton_Click;
-            emitterQualityMedium = GetTemplateChild(PART_EmitterQualityMedium) as RadioButton;
-            emitterQualityMedium.Checked += MediumButton_Click;
-            emitterQualityHigh = GetTemplateChild(PART_EmitterQualityHigh) as RadioButton;
-            emitterQualityHigh.Checked += HighButton_Click;
-            emitterQualityUltra = GetTemplateChild(PART_EmitterQualityUltra) as RadioButton;
-            emitterQualityUltra.Checked += UltraButton_Click;
             UpdateToolbar();
 
             Loaded += EmitterDocumentEditor_Loaded;
@@ -111,42 +100,24 @@ namespace ScalableEmitterEditorPlugin
         {
             dynamic obj = asset.RootObject;
 
-            foreach (dynamic component in obj.Object.Internal.Components) {
-                if (((object)component.Internal).GetType().Name == "EmitterGraphEntityData") {
-                    foreach (dynamic param in component.Internal.EmitterGraphParams) {
-                        EmitterStackItems.Add(new EmitterStackItemData(param, true, pgAsset));
-                    }
-                }
-            }
+            GetEmitterProcessors(obj);
 
-            //pgAsset.Object = obj.Object.Internal.Components;
-            //pgAsset.Object = objectnew;
+            pgAsset.Object = obj.Object.Internal;
 
-
-            //pgAsset.Object = obj.TemplateDataLow.Internal;
-            //GetEmitterProcessors(pgAsset.Object);
-            //activeQualityLevel = new bool[] { true, false, false, false };
-            //emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
+            emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
         }
 
         void GetEmitterProcessors(dynamic obj)
         {
-            dynamic proc = obj;
+            if (!editor) return;
+            
             EmitterStackItems.Clear();
-
-            // add emitter base
-            EmitterStackItems.Add(new EmitterStackItemData(proc, true, pgAsset));
-            proc = proc.RootProcessor.Internal;
-
-            // add root processor
-            if (proc != null)
-            {
-                EmitterStackItems.Add(new EmitterStackItemData(proc, false, pgAsset));
-                proc = proc.NextProcessor.Internal;
-                while (proc != null)
-                {
-                    EmitterStackItems.Add(new EmitterStackItemData(proc, false, pgAsset));
-                    proc = proc.NextProcessor.Internal;
+            foreach (dynamic component in obj.Object.Internal.Components) {
+                if (((object)component.Internal).GetType().Name == "EmitterGraphEntityData") {
+                    EmitterStackItems.Add(new EmitterStackItemData(component.Internal.EmitterGraphParams[0], pgAsset, component.Internal.__Id));
+                    foreach (dynamic param in component.Internal.EmitterGraphParams) {
+                        EmitterStackItems.Add(new EmitterStackItemData(param, pgAsset));
+                    }
                 }
             }
         }
@@ -155,25 +126,7 @@ namespace ScalableEmitterEditorPlugin
 
         private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e)
         {
-            EmitterStackItems.Clear();
-            dynamic obj = asset.RootObject;
-
-            if (activeQualityLevel[0])
-            {
-                GetEmitterProcessors(obj.TemplateDataLow.Internal);
-            }
-            else if (activeQualityLevel[1])
-            {
-                GetEmitterProcessors(obj.TemplateDataMedium.Internal);
-            }
-            else if (activeQualityLevel[2])
-            {
-                GetEmitterProcessors(obj.TemplateDataHigh.Internal);
-            }
-            else if (activeQualityLevel[3])
-            {
-                GetEmitterProcessors(obj.TemplateDataUltra.Internal);
-            }
+            GetEmitterProcessors(asset.RootObject);
         }
 
         private void UpdateToolbar()
@@ -325,67 +278,25 @@ namespace ScalableEmitterEditorPlugin
         {
             return new List<ToolbarItem>()
             {
-                new ToolbarItem("Show All", "", "", new RelayCommand((object state) => { ShowAllButton_Click(this, new RoutedEventArgs()); })),
-                new ToolbarItem("Show Editor", "", "", new RelayCommand((object state) => { LowButton_Click(this, new RoutedEventArgs()); })),
-                new ToolbarItem("Unify", "Unify Qualities", "", new RelayCommand((object state) => { UnifyButton_Click(this, new RoutedEventArgs()); })),
+                new ToolbarItem("Disable Editor", "", "", new RelayCommand((object state) => { DisableEditor(this); })),
+                new ToolbarItem("Show Editor", "", "", new RelayCommand((object state) => { EnableEditor(this); }))
             };
         }
 
-        private void UnifyButton_Click(object sender, RoutedEventArgs e)
-        {
-            //dynamic obj = asset.RootObject;
-            //obj.TemplateDataLow = obj.TemplateDataUltra;
-            //obj.TemplateDataMedium = obj.TemplateDataUltra;
-            //obj.TemplateDataHigh = obj.TemplateDataUltra;
-            //UpdateToolbar();
-            //AssetModified = true;
-            //InvokeOnAssetModified();
-
-            //Application.Current.Dispatcher.BeginInvoke(new Action(() => emitterQualityLow.IsChecked = true));
-            //LowButton_Click(this, new RoutedEventArgs());
-        }
-
-        private void ShowAllButton_Click(object sender, RoutedEventArgs e)
+        private void DisableEditor(object sender)
         {
             pgAsset.Object = asset.RootObject;
+            editor = false;
             EmitterStackItems.Clear();
-            activeQualityLevel = new bool[] { false, false, false, false };
             emitterStackColumn.Width = new GridLength(0);
         }
 
-        private void LowButton_Click(object sender, RoutedEventArgs e)
+        private void EnableEditor(object sender)
         {
+            editor = true;
             dynamic obj = asset.RootObject;
-            pgAsset.Object = obj.TemplateDataLow.Internal;
-            GetEmitterProcessors(pgAsset.Object);
-            activeQualityLevel = new bool[]{ true, false, false, false };
-            emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
-        }
-
-        private void MediumButton_Click(object sender, RoutedEventArgs e)
-        {
-            dynamic obj = asset.RootObject;
-            pgAsset.Object = obj.TemplateDataMedium.Internal;
-            GetEmitterProcessors(pgAsset.Object);
-            activeQualityLevel = new bool[] { false, true, false, false };
-            emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
-        }
-
-        private void HighButton_Click(object sender, RoutedEventArgs e)
-        {
-            dynamic obj = asset.RootObject;
-            pgAsset.Object = obj.TemplateDataHigh.Internal;
-            GetEmitterProcessors(pgAsset.Object);
-            activeQualityLevel = new bool[] { false, false, true, false };
-            emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
-        }
-
-        private void UltraButton_Click(object sender, RoutedEventArgs e)
-        {
-            dynamic obj = asset.RootObject;
-            pgAsset.Object = obj.TemplateDataUltra.Internal;
-            GetEmitterProcessors(pgAsset.Object);
-            activeQualityLevel = new bool[] { false, false, false, true };
+            pgAsset.Object = obj.Object.Internal;
+            GetEmitterProcessors(obj);
             emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
         }
 
