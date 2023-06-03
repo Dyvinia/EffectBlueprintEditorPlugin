@@ -159,28 +159,32 @@ namespace ScalableEmitterEditorPlugin
             else {
                 HeaderVisiblity = Visibility.Collapsed;
 
-                if (vsfParams.TryGetValue(obj.PropertyId, out string[] value)) {
-                    switch (value?.Length) {
+                if (vsfParams.TryGetValue(obj.PropertyId, out string[] egParams)) {
+                    switch (egParams?.Length) {
+                        // Assume Floatx4
                         case 4:
-                            XName = value[0];
-                            YName = value[1];
-                            ZName = value[2];
-                            WName = value[3];
+                            XName = egParams[0];
+                            YName = egParams[1];
+                            ZName = egParams[2];
+                            WName = egParams[3];
                             break;
+                        // Assume Floatx3
                         case 3:
-                            XName = value[0];
-                            YName = "";
-                            ZName = value[1];
-                            WName = value[2];
+                            XName = egParams[0];
+                            YName = egParams[1];
+                            ZName = egParams[2];
+                            WName = "";
                             break;
+                        // Assume Vec3 + Float
                         case 2:
-                            XName = value[0];
+                            XName = egParams[0];
                             YName = "";
                             ZName = "";
-                            WName = value[1];
+                            WName = egParams[1];
                             break;
+                        // Assume Vec4
                         case 1:
-                            XName = value[0];
+                            XName = egParams[0];
                             YName = "";
                             ZName = "";
                             WName = "";
