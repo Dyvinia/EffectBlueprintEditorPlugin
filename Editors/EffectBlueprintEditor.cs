@@ -88,10 +88,7 @@ namespace ScalableEmitterEditorPlugin
             emitterStackColumn = GetTemplateChild(PART_EmitterStackColumn) as ColumnDefinition;
             emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
 
-            UpdateToolbar();
-
             Loaded += EmitterDocumentEditor_Loaded;
-            
         }
 
         private void EmitterDocumentEditor_Loaded(object sender, RoutedEventArgs e)
@@ -125,11 +122,6 @@ namespace ScalableEmitterEditorPlugin
         private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e)
         {
             GetEmitterProcessors(asset.RootObject);
-        }
-
-        private void UpdateToolbar()
-        {
-            dynamic obj = asset.RootObject;
         }
 
         private void EmitterStack_Loaded(object sender, RoutedEventArgs e)
