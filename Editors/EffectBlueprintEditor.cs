@@ -113,8 +113,6 @@ namespace ScalableEmitterEditorPlugin
                         string[] lines = vsf.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
                         List<string> vsfParamLines = lines.Where(l => l.Contains("g_emitterGraphParams[") && l.Contains("].xyzw")).ToList();
 
-                        
-
                         for (int i = 0; i < vsfParamLines.Count; i++) {
                             List<string> param = new List<string>();
                             foreach (string vsfParamLine in vsfParamLines[i].Split()[3].Split('_')) {
