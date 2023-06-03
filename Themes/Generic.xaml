@@ -30,41 +30,53 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <!--<RowDefinition Height="26"/>-->
-                                        <RowDefinition Height="0"/>
+                                        <RowDefinition Height="26"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Border Margin="1">
                                         <DockPanel>
                                             <Border Background="{StaticResource ControlBackground}" Margin="0,0,0,0">
-                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0">
+                                                <Grid>
+                                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0" Visibility="Collapsed">
 
-                                                    <ToggleButton Width="22" Height="22" x:Name="PART_EmitterQualityLow" Margin="0" ToolTip="Low" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True">
-                                                        <ToggleButton.Content>
-                                                            <Grid>
-                                                                <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                <TextBlock x:Name="PART_EmitterQualityLowText" Text="L" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                            </Grid>
-                                                        </ToggleButton.Content>
-                                                    </ToggleButton>
+                                                        <ToggleButton Width="22" Height="22" x:Name="PART_EmitterQualityLow" Margin="0" ToolTip="Low" Style="{StaticResource {x:Type ToggleButton}}" IsChecked="True">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock x:Name="PART_EmitterQualityLowText" Text="L" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
 
-                                                    <ToggleButton Width="22" x:Name="PART_EmitterQualityMedium" Margin="0" ToolTip="Medium" Style="{StaticResource {x:Type ToggleButton}}">
-                                                        <ToggleButton.Content>
-                                                            <Grid>
-                                                                <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                <TextBlock Text="M" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                            </Grid>
-                                                        </ToggleButton.Content>
-                                                    </ToggleButton>
+                                                        <ToggleButton Width="22" x:Name="PART_EmitterQualityMedium" Margin="0" ToolTip="Medium" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock Text="M" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
 
-                                                    <ToggleButton Width="22" x:Name="PART_EmitterQualityHigh" Margin="0" ToolTip="High" Style="{StaticResource {x:Type ToggleButton}}">
-                                                        <ToggleButton.Content>
-                                                            <Grid>
-                                                                <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                <TextBlock Text="H" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                            </Grid>
-                                                        </ToggleButton.Content>
-                                                    </ToggleButton>
-                                                </StackPanel>
+                                                        <ToggleButton Width="22" x:Name="PART_EmitterQualityHigh" Margin="0" ToolTip="High" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock Text="H" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
+                                                    </StackPanel>
+
+                                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="6,0,6,0" HorizontalAlignment="Right">
+                                                        <Button x:Name="PART_Refresh" Width="22" Height="22" Margin="0" ToolTip="Refresh" Style="{StaticResource {x:Type Button}}">
+                                                            <Button.Content>
+                                                                <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Refresh.png"/>
+                                                            </Button.Content>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                                
+                                                
                                             </Border>
                                         </DockPanel>
                                     </Border>

@@ -14,6 +14,7 @@ namespace ScalableEmitterEditorPlugin
     [TemplatePart(Name = PART_EmitterStackPanel, Type = typeof(FrostyDockablePanel))]
     [TemplatePart(Name = PART_EmitterStack, Type = typeof(ItemsControl))]
     [TemplatePart(Name = PART_EmitterStackColumn, Type = typeof(ColumnDefinition))]
+    [TemplatePart(Name = PART_Refresh, Type = typeof(Button))]
     public class EffectBlueprintEditor : FrostyAssetEditor
     {
 
@@ -23,6 +24,7 @@ namespace ScalableEmitterEditorPlugin
         private const string PART_EmitterStackPanel = "PART_EmitterStackPanel";
         private const string PART_EmitterStack = "PART_EmitterStack";
         private const string PART_EmitterStackColumn = "PART_EmitterStackColumn";
+        private const string PART_Refresh = "PART_Refresh";
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace ScalableEmitterEditorPlugin
         private FrostyDockablePanel emitterStackPanel;
         private ItemsControl emitterStack;
         private ColumnDefinition emitterStackColumn;
+        private Button refreshButton;
 
 
         private bool editor = true;
@@ -74,7 +77,14 @@ namespace ScalableEmitterEditorPlugin
             emitterStackColumn = GetTemplateChild(PART_EmitterStackColumn) as ColumnDefinition;
             emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
 
+            refreshButton = GetTemplateChild(PART_Refresh) as Button;
+            refreshButton.Click += RefreshButton_Click;
+
             Loaded += EmitterDocumentEditor_Loaded;
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e) {
+            GetEmitterProcessors(asset.RootObject);
         }
 
         private void EmitterDocumentEditor_Loaded(object sender, RoutedEventArgs e)
@@ -135,13 +145,15 @@ namespace ScalableEmitterEditorPlugin
                 }
                 count++;
             }
+            refreshButton.IsEnabled = false;
         }
 
         #region -- Control Events --
 
         private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e)
         {
-            GetEmitterProcessors(asset.RootObject);
+            //GetEmitterProcessors(asset.RootObject);
+            refreshButton.IsEnabled = true;
         }
 
         private void EmitterStack_Loaded(object sender, RoutedEventArgs e)

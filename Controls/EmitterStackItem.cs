@@ -12,12 +12,14 @@ using System.Windows.Controls;
 namespace ScalableEmitterEditorPlugin
 {
     [TemplatePart(Name = PART_StackCanvas, Type = typeof(Canvas))]
+    [TemplatePart(Name = PART_Refresh, Type = typeof(Button))]
     public class EmitterStackItem : UserControl
     {
 
         #region -- Part Names --
 
         private const string PART_StackCanvas = "PART_StackCanvas";
+        private const string PART_Refresh = "PART_Refresh";
 
         #endregion
 
