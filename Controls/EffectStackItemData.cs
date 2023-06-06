@@ -155,6 +155,7 @@ namespace ScalableEmitterEditorPlugin
                             ZName = "";
                             WName = "";
                             break;
+                        // Display as a single string
                         default:
                             SingleName = String.Join("_", egParams);
                             XName = "";

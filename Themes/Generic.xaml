@@ -147,7 +147,7 @@
                         <UniformGrid>
                             <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Center" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" Margin="0 8 0 0"/>
 
-                            <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
+                            <Grid Background="#383838" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>

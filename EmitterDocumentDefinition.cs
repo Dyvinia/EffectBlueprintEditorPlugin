@@ -13,7 +13,7 @@ namespace ScalableEmitterEditorPlugin
     public class EmitterDocumentDefinition : AssetDefinition
     {
 
-        protected static ImageSource emitterSource = new ImageSourceConverter().ConvertFromString("pack://application:,,,/FrostyCore;Component/Images/Assets/ShaderFileType.png") as ImageSource;
+        protected static ImageSource emitterSource = new ImageSourceConverter().ConvertFromString("pack://application:,,,/EffectBlueprintEditorPlugin;component/Images/EffectEditor.png") as ImageSource;
 
         public EmitterDocumentDefinition()
         {

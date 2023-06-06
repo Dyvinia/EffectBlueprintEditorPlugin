@@ -194,7 +194,7 @@ namespace ScalableEmitterEditorPlugin
                         EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "TubeWidth", pgAsset));
                     }
                     if (component.Internal.Light.Internal.GetType().Name == "PbrSphereLightEntityData") {
-                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "SphereRadius", pgAsset));
+                        //EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "SphereRadius", pgAsset));
                     }
                 }
                 count++;

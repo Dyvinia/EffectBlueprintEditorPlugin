@@ -41,6 +41,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <None Remove="Images\EffectEditor.png" />
     <None Remove="Images\Refresh.png" />
   </ItemGroup>
 
@@ -66,6 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\EffectEditor.png" />
     <Resource Include="Images\Refresh.png" />
   </ItemGroup>
 
