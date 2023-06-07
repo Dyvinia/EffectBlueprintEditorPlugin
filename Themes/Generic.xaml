@@ -64,7 +64,7 @@
 
                                                         <Border BorderThickness="0.5" Margin="2" BorderBrush="{StaticResource ListBackground}"/>
 
-                                                        <ToggleButton x:Name="PART_ShowTransforms" IsChecked="True" Width="22" Margin="1" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton x:Name="PART_ShowTransforms" Width="22" Margin="1" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
                                                                     <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
