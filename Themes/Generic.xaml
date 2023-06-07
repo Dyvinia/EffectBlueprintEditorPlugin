@@ -84,13 +84,13 @@
                                                     </StackPanel>
 
                                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="4,0,4,0" HorizontalAlignment="Right">
-                                                        <ToggleButton x:Name="PART_AutoRefresh" IsChecked="True" Width="22" Margin="1" ToolTip="Automatically Refresh Editor" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton x:Name="PART_AutoRefresh" Visibility="Collapsed" IsChecked="True" Width="22" Margin="1" ToolTip="Automatically Refresh Editor" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Image Width="16" Source="/FrostyEditor;component/Images/Compile.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
-                                                        
-                                                        <Button x:Name="PART_Refresh" Width="22" Height="22" Margin="1" ToolTip="Refresh" Style="{StaticResource {x:Type Button}}">
+
+                                                        <Button x:Name="PART_Refresh" Visibility="Collapsed" Width="22" Height="22" Margin="1" ToolTip="Refresh" Style="{StaticResource {x:Type Button}}">
                                                             <Button.Content>
                                                                 <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Refresh.png"/>
                                                             </Button.Content>
