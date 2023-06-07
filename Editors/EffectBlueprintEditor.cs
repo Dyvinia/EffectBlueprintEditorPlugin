@@ -59,6 +59,8 @@ namespace EffectBlueprintEditorPlugin
 
         public ObservableCollection<EffectStackItemData> EmitterStackItems { get; set; }
 
+        Dictionary<string, Dictionary<int, string[]>> VSF = new Dictionary<string, Dictionary<int, string[]>>();
+
         #region -- Constructors --
 
         static EffectBlueprintEditor()
@@ -146,26 +148,29 @@ namespace EffectBlueprintEditorPlugin
 
                     EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
 
-                    Dictionary<int, string[]> vsfParams = new Dictionary<int, string[]>();
-                    try {
-                        dynamic eGraph = App.AssetManager.GetEbx(reference).RootObject;
+                    if (!VSF.TryGetValue(reference.Name, out Dictionary<int, string[]> vsfParams)) {
+                        vsfParams = new Dictionary<int, string[]>();
+                        try {
+                            dynamic eGraph = App.AssetManager.GetEbx(reference).RootObject;
 
-                        dynamic[] egParams = eGraph.EmitterGraphParams.ToArray();
+                            dynamic[] egParams = eGraph.EmitterGraphParams.ToArray();
 
-                        string vsf = App.AssetManager.GetEbx(String.IsNullOrEmpty(eGraph.MeshVertexShaderFragmentAssetName) ? eGraph.VertexShaderFragmentAssetName : eGraph.MeshVertexShaderFragmentAssetName).RootObject.PipelineGeneratedSourceCode;
+                            string vsf = App.AssetManager.GetEbx(String.IsNullOrEmpty(eGraph.MeshVertexShaderFragmentAssetName) ? eGraph.VertexShaderFragmentAssetName : eGraph.MeshVertexShaderFragmentAssetName).RootObject.PipelineGeneratedSourceCode;
 
-                        string[] lines = vsf.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
-                        List<string> vsfParamLines = lines.Where(l => l.Contains("g_emitterGraphParams[") && l.Contains("].xyzw")).ToList();
+                            string[] lines = vsf.Split(new string[] { "\n", "\r" }, StringSplitOptions.RemoveEmptyEntries);
+                            List<string> vsfParamLines = lines.Where(l => l.Contains("g_emitterGraphParams[") && l.Contains("].xyzw")).ToList();
 
-                        for (int i = 0; i < vsfParamLines.Count; i++) {
-                            List<string> param = new List<string>();
-                            foreach (string vsfParamLine in vsfParamLines[i].Split()[3].Split('_')) {
-                                param.Add(char.ToUpper(vsfParamLine[0]) + vsfParamLine.Substring(1));
+                            for (int i = 0; i < vsfParamLines.Count; i++) {
+                                List<string> param = new List<string>();
+                                foreach (string vsfParamLine in vsfParamLines[i].Split()[3].Split('_')) {
+                                    param.Add(char.ToUpper(vsfParamLine[0]) + vsfParamLine.Substring(1));
+                                }
+                                vsfParams.Add(egParams[i].PropertyId, param.ToArray());
                             }
-                            vsfParams.Add(egParams[i].PropertyId, param.ToArray());
                         }
+                        catch { }
+                        VSF.Add(reference.Name, vsfParams);
                     }
-                    catch { }
 
                     if (showTransformsButton.IsChecked == true) {
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
