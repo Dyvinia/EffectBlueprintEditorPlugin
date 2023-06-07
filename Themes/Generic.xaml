@@ -35,11 +35,20 @@
                                             <Border Background="{StaticResource ControlBackground}" Margin="0,0,0,0">
                                                 <Grid>
                                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="4,0,4,0">
-                                                        <ToggleButton x:Name="PART_ShowEG" IsChecked="True" Width="22" Margin="1" ToolTip="Show EmitterGraphs" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton x:Name="PART_ShowEM" IsChecked="True" Width="22" Margin="1" ToolTip="Show Emitters" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
                                                                     <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
                                                                     <TextBlock Text="E" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
+                                                        
+                                                        <ToggleButton x:Name="PART_ShowEG" IsChecked="True" Width="22" Margin="1" ToolTip="Show EmitterGraphs" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock Text="G" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                                 </Grid>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
@@ -55,7 +64,7 @@
 
                                                         <Border BorderThickness="0.5" Margin="2" BorderBrush="{StaticResource ListBackground}"/>
 
-                                                        <ToggleButton x:Name="PART_ShowTransforms" Width="22" Margin="1" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton x:Name="PART_ShowTransforms" IsChecked="True" Width="22" Margin="1" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
                                                                     <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>

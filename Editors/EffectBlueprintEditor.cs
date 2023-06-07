@@ -30,6 +30,7 @@ namespace ScalableEmitterEditorPlugin
         private const string PART_Refresh = "PART_Refresh";
         private const string PART_AutoRefresh = "PART_AutoRefresh";
 
+        private const string PART_ShowEM = "PART_ShowEM";
         private const string PART_ShowEG = "PART_ShowEG";
         private const string PART_ShowLE = "PART_ShowLE";
 
@@ -46,6 +47,7 @@ namespace ScalableEmitterEditorPlugin
         private ColumnDefinition emitterStackColumn;
         private Button refreshButton;
         private ToggleButton autoRefreshButton;
+        private ToggleButton showEMButton;
         private ToggleButton showEGButton;
         private ToggleButton showLEButton;
         private ToggleButton showTransformsButton;
@@ -96,6 +98,8 @@ namespace ScalableEmitterEditorPlugin
 
             autoRefreshButton = GetTemplateChild(PART_AutoRefresh) as ToggleButton;
 
+            showEMButton = GetTemplateChild(PART_ShowEM) as ToggleButton;
+            showEMButton.Click += RefreshButton_Click;
             showEGButton = GetTemplateChild(PART_ShowEG) as ToggleButton;
             showEGButton.Click += RefreshButton_Click;
             showLEButton = GetTemplateChild(PART_ShowLE) as ToggleButton;
@@ -167,6 +171,8 @@ namespace ScalableEmitterEditorPlugin
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
                     }
 
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
+
                     foreach (dynamic param in component.Internal.EmitterGraphParams) {
                         if (vsfParams.TryGetValue(param.PropertyId, out string[] _) || showUnknownButton.IsChecked) {
                             EmitterStackItems.Add(new EffectStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
@@ -196,6 +202,18 @@ namespace ScalableEmitterEditorPlugin
                     if (component.Internal.Light.Internal.GetType().Name == "PbrSphereLightEntityData") {
                         //EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "SphereRadius", pgAsset));
                     }
+                }
+
+                if (component.Internal.GetType().Name == "EmitterEntityData" && showEMButton.IsChecked) {
+                    dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.Emitter.External.FileGuid);
+
+                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
+
+                    if (showTransformsButton.IsChecked == true) {
+                        EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
+                    }
+
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
                 }
 
 
