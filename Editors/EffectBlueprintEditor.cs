@@ -107,18 +107,18 @@ namespace ScalableEmitterEditorPlugin
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
             showUnknownButton.Click += RefreshButton_Click;
 
-            Loaded += EmitterDocumentEditor_Loaded;
+            EditorLoaded();
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e) {
-            GetEmitterProcessors(asset.RootObject);
+            GetEffectStackItems(asset.RootObject);
         }
 
-        private void EmitterDocumentEditor_Loaded(object sender, RoutedEventArgs e)
+        private void EditorLoaded()
         {
             dynamic obj = asset.RootObject;
 
-            GetEmitterProcessors(obj);
+            GetEffectStackItems(obj);
 
             pgAsset.Object = obj.Object.Internal;
 
@@ -128,7 +128,7 @@ namespace ScalableEmitterEditorPlugin
                 DisableEditor();
         }
 
-        void GetEmitterProcessors(dynamic obj)
+        void GetEffectStackItems(dynamic obj)
         {
             if (!showEditor) return;
             
@@ -197,6 +197,8 @@ namespace ScalableEmitterEditorPlugin
                         //EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "SphereRadius", pgAsset));
                     }
                 }
+
+
                 count++;
             }
             refreshButton.IsEnabled = false;
@@ -207,7 +209,7 @@ namespace ScalableEmitterEditorPlugin
         private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e)
         {
             if (autoRefreshButton.IsChecked == true)
-                GetEmitterProcessors(asset.RootObject);
+                GetEffectStackItems(asset.RootObject);
             else
                 refreshButton.IsEnabled = true;
         }
@@ -242,7 +244,7 @@ namespace ScalableEmitterEditorPlugin
             showEditor = true;
             dynamic obj = asset.RootObject;
             pgAsset.Object = obj.Object.Internal;
-            GetEmitterProcessors(obj);
+            GetEffectStackItems(obj);
             emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
         }
 
