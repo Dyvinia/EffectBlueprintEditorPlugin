@@ -113,25 +113,20 @@ namespace EffectBlueprintEditorPlugin
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
             showUnknownButton.Click += RefreshButton_Click;
 
-            EditorLoaded();
+            Loaded += Editor_Loaded;
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e) {
             GetEffectStackItems(asset.RootObject);
         }
 
-        private void EditorLoaded()
-        {
+        private void Editor_Loaded(object sender, RoutedEventArgs e) {
             dynamic obj = asset.RootObject;
 
             GetEffectStackItems(obj);
 
-            pgAsset.Object = obj.Object.Internal;
-
-            emitterStackColumn.Width = new GridLength(2, GridUnitType.Star);
-
-            if (EmitterStackItems.Count == 0)
-                DisableEditor();
+            if (pgAsset.Object != obj.Object.Internal)
+                pgAsset.Object = obj.Object.Internal;
         }
 
         void GetEffectStackItems(dynamic obj)
