@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace ScalableEmitterEditorPlugin
+namespace EffectBlueprintEditorPlugin
 {
     [TemplatePart(Name = PART_StackCanvas, Type = typeof(Canvas))]
     public class EffectStackItem : UserControl

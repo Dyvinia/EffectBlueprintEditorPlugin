@@ -1,4 +1,4 @@
-﻿using ScalableEmitterEditorPlugin;
+﻿using EffectBlueprintEditorPlugin;
 using Frosty.Core.Attributes;
 using System.Reflection;
 using System.Runtime.CompilerServices;

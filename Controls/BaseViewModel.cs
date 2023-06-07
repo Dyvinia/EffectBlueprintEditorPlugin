@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScalableEmitterEditorPlugin
+namespace EffectBlueprintEditorPlugin
 {
     public class BaseViewModel : INotifyPropertyChanged
     {

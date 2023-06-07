@@ -10,7 +10,7 @@ using Frosty.Controls;
 using System.Linq;
 using System.Windows.Controls.Primitives;
 
-namespace ScalableEmitterEditorPlugin
+namespace EffectBlueprintEditorPlugin
 {
     [TemplatePart(Name = PART_EmitterStackPanel, Type = typeof(FrostyDockablePanel))]
     [TemplatePart(Name = PART_EmitterStack, Type = typeof(ItemsControl))]

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace ScalableEmitterEditorPlugin
+namespace EffectBlueprintEditorPlugin
 {
     public class EmitterDocumentDefinition : AssetDefinition
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ScalableEmitterEditorPlugin
+namespace EffectBlueprintEditorPlugin
 {
     public class EffectStackItemData : BaseViewModel
     {
