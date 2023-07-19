@@ -141,7 +141,8 @@ namespace EffectBlueprintEditorPlugin
                 if (component.Internal.GetType().Name == "EmitterGraphEntityData" && showEGButton.IsChecked) {
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
 
-                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
+                    // Header
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}", true, pgAsset));
 
                     if (!VSF.TryGetValue(reference.Name, out Dictionary<int, string[]> vsfParams)) {
                         vsfParams = new Dictionary<int, string[]>();
@@ -181,7 +182,8 @@ namespace EffectBlueprintEditorPlugin
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {
-                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {component.Internal.Light.Internal?.__Id}"));
+                    // Header
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {component.Internal.Light.Internal?.__Id}", true, pgAsset));
 
                     if (showTransformsButton.IsChecked == true) {
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
@@ -207,7 +209,8 @@ namespace EffectBlueprintEditorPlugin
                 if (component.Internal.GetType().Name == "EmitterEntityData" && showEMButton.IsChecked) {
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.Emitter.External.FileGuid);
 
-                    EmitterStackItems.Add(new EffectStackItemData(-1, null, pgAsset, null, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}"));
+                    // Header
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}", true, pgAsset));
 
                     if (showTransformsButton.IsChecked == true) {
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));

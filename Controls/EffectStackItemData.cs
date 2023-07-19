@@ -106,7 +106,7 @@ namespace EffectBlueprintEditorPlugin
 
         #region -- Constructors --
 
-        public EffectStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, string header = null)
+        public EffectStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams)
         {
             propertyGrid = pg;
             Value = obj;
@@ -118,57 +118,51 @@ namespace EffectBlueprintEditorPlugin
             ZName = $"Z [{propertyId}]";
             WName = $"W [{propertyId}]";
 
-            if (header != null) {
-                HeaderText = header;
-                ValuesVisiblity = Visibility.Collapsed;
+            HeaderVisiblity = Visibility.Collapsed;
+
+            if (vsfParams.TryGetValue(propertyId, out string[] egParams)) {
+                switch (egParams?.Length) {
+                    // Assume Floatx4
+                    case 4:
+                        XName = egParams[0];
+                        YName = egParams[1];
+                        ZName = egParams[2];
+                        WName = egParams[3];
+                        break;
+                    // Assume Floatx3
+                    case 3:
+                        XName = egParams[0];
+                        YName = egParams[1];
+                        ZName = egParams[2];
+                        WName = "";
+                        break;
+                    // Assume Vec3 + Float
+                    case 2:
+                        XName = egParams[0];
+                        YName = "";
+                        ZName = "";
+                        WName = egParams[1];
+                        break;
+                    // Assume Vec4
+                    case 1:
+                        XName = egParams[0];
+                        YName = "";
+                        ZName = "";
+                        WName = "";
+                        break;
+                    // Display as a single string
+                    default:
+                        SingleName = String.Join("_", egParams);
+                        XName = "";
+                        YName = "";
+                        ZName = "";
+                        WName = "";
+                        break;
+                }
             }
-            else {
-                HeaderVisiblity = Visibility.Collapsed;
 
-                if (vsfParams.TryGetValue(propertyId, out string[] egParams)) {
-                    switch (egParams?.Length) {
-                        // Assume Floatx4
-                        case 4:
-                            XName = egParams[0];
-                            YName = egParams[1];
-                            ZName = egParams[2];
-                            WName = egParams[3];
-                            break;
-                        // Assume Floatx3
-                        case 3:
-                            XName = egParams[0];
-                            YName = egParams[1];
-                            ZName = egParams[2];
-                            WName = "";
-                            break;
-                        // Assume Vec3 + Float
-                        case 2:
-                            XName = egParams[0];
-                            YName = "";
-                            ZName = "";
-                            WName = egParams[1];
-                            break;
-                        // Assume Vec4
-                        case 1:
-                            XName = egParams[0];
-                            YName = "";
-                            ZName = "";
-                            WName = "";
-                            break;
-                        // Display as a single string
-                        default:
-                            SingleName = String.Join("_", egParams);
-                            XName = "";
-                            YName = "";
-                            ZName = "";
-                            WName = "";
-                            break;
-                    }
-                }
-
-                if (obj.GetType().Name == "Vec3") {
-                    WWidth  = new GridLength(0, GridUnitType.Star);
-                }
+            if (obj.GetType().Name == "Vec3") {
+                WWidth = new GridLength(0, GridUnitType.Star);
             }
         }
 
@@ -181,6 +175,14 @@ namespace EffectBlueprintEditorPlugin
             HeaderVisiblity = Visibility.Collapsed;
             ValuesVisiblity = Visibility.Collapsed;
             SingleVisiblity = Visibility.Visible;
+        }
+
+        public EffectStackItemData(dynamic obj, string headerText, bool isEnabled, FrostyPropertyGrid pg) {
+            propertyGrid = pg;
+            Value = obj;
+
+            HeaderText = headerText;
+            ValuesVisiblity = Visibility.Collapsed;
         }
 
         #endregion
