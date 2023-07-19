@@ -91,10 +91,10 @@ namespace EffectBlueprintEditorPlugin
 
         public bool? ComponentEnabled {
             get {
-                var test = Value.Internal.Enable;
-                if (test.Low && test.Medium && test.High && test.Ultra)
+                var enableScalable = Value.Internal.Enable;
+                if (enableScalable.Low && enableScalable.Medium && enableScalable.High && enableScalable.Ultra)
                     return true;
-                else if (test.Low || test.Medium || test.High || test.Ultra)
+                else if (enableScalable.Low || enableScalable.Medium || enableScalable.High || enableScalable.Ultra)
                     return null;
                 else
                     return false;
