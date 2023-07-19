@@ -91,7 +91,7 @@ namespace EffectBlueprintEditorPlugin
 
         public bool? ComponentEnabled {
             get {
-                var enableScalable = Value.Internal.Enable;
+                dynamic enableScalable = Value.Internal.Enable;
                 if (enableScalable.Low && enableScalable.Medium && enableScalable.High && enableScalable.Ultra)
                     return true;
                 else if (enableScalable.Low || enableScalable.Medium || enableScalable.High || enableScalable.Ultra)
@@ -100,10 +100,11 @@ namespace EffectBlueprintEditorPlugin
                     return false;
             }
             set {
-                Value.Internal.Enable.GetType().GetProperty("Low").SetValue(Value.Internal.Enable, value, null);
-                Value.Internal.Enable.GetType().GetProperty("Medium").SetValue(Value.Internal.Enable, value, null);
-                Value.Internal.Enable.GetType().GetProperty("High").SetValue(Value.Internal.Enable, value, null);
-                Value.Internal.Enable.GetType().GetProperty("Ultra").SetValue(Value.Internal.Enable, value, null);
+                dynamic enableScalable = Value.Internal.Enable;
+                enableScalable.GetType().GetProperty("Low").SetValue(enableScalable, value, null);
+                enableScalable.GetType().GetProperty("Medium").SetValue(enableScalable, value, null);
+                enableScalable.GetType().GetProperty("High").SetValue(enableScalable, value, null);
+                enableScalable.GetType().GetProperty("Ultra").SetValue(enableScalable, value, null);
                 RaisePropertyChanged("ComponentEnabled");
                 propertyGrid.Modified = true;
             }
