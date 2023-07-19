@@ -92,9 +92,8 @@ namespace EffectBlueprintEditorPlugin
         public bool? ComponentEnabled {
             get {
                 var test = Value.Internal.Enable;
-                if (test.Low && test.Medium && test.High && test.Ultra) {
+                if (test.Low && test.Medium && test.High && test.Ultra)
                     return true;
-                }
                 else if (test.Low || test.Medium || test.High || test.Ultra)
                     return null;
                 else
