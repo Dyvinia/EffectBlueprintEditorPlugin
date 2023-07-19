@@ -89,6 +89,27 @@ namespace EffectBlueprintEditorPlugin
             }
         }
 
+        public bool? ComponentEnabled {
+            get {
+                var test = Value.Internal.Enable;
+                if (test.Low && test.Medium && test.High && test.Ultra) {
+                    return true;
+                }
+                else if (test.Low || test.Medium || test.High || test.Ultra)
+                    return null;
+                else
+                    return false;
+            }
+            set {
+                Value.Internal.Enable.GetType().GetProperty("Low").SetValue(Value.Internal.Enable, value, null);
+                Value.Internal.Enable.GetType().GetProperty("Medium").SetValue(Value.Internal.Enable, value, null);
+                Value.Internal.Enable.GetType().GetProperty("High").SetValue(Value.Internal.Enable, value, null);
+                Value.Internal.Enable.GetType().GetProperty("Ultra").SetValue(Value.Internal.Enable, value, null);
+                RaisePropertyChanged("ComponentEnabled");
+                propertyGrid.Modified = true;
+            }
+        }
+
         public float SingleValue {
             get {
                 return Value.GetType().GetProperty(SingleName).GetValue(Value, null);

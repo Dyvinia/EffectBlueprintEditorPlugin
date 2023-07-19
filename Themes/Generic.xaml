@@ -153,7 +153,11 @@
                 <ControlTemplate TargetType="{x:Type local:EffectStackItem}">
                     <Grid Margin="1" HorizontalAlignment="Center" ToolTip="{Binding Path=ItemToolTip}">
                         <UniformGrid>
-                            <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Center" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" Margin="0 8 0 0"/>
+                            <StackPanel Orientation="Horizontal"  Width="420" Margin="0 8 0 0" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" >
+                                <CheckBox IsChecked="{Binding Path=ComponentEnabled, Mode=TwoWay}" Margin="0 2 4 0"/>
+                                <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Left"/>
+                            </StackPanel>
+                            
 
                             <Grid Background="#393939" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
                                 <Grid>
