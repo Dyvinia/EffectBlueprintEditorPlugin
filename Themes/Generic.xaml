@@ -202,11 +202,33 @@
                             </Grid>
 
                             <!-- New Property Button -->
-                            <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=NewPropVisiblity, Mode=TwoWay}" Height="20" Width="420">
+                            <Grid HorizontalAlignment="Center" Visibility="{Binding Path=NewPropVisiblity, Mode=TwoWay}" Height="18" Width="420">
                                 <Button Command="{Binding Path=ButtonClickedCommand, Mode=TwoWay}" ToolTip="Add New Property">
                                     <Button.Content>
                                         <Image Source="/FrostyEditor;component/Images/Add.png" Width="12"/>
                                     </Button.Content>
+                                    <Button.Style>
+                                        <Style TargetType="{x:Type Button}">
+                                            <Setter Property="Background" Value="#404040"/>
+                                            <Setter Property="Foreground" Value="{StaticResource FontColor}"/>
+                                            <Setter Property="Cursor" Value="Hand"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#575757"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Background" Value="#525252"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="{TemplateBinding Background}">
+                                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Button.Template>
                                 </Button>
                             </Grid>
 
