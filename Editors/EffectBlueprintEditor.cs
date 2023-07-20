@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using Frosty.Controls;
 using System.Linq;
 using System.Windows.Controls.Primitives;
+using EffectBlueprintEditorPlugin.Windows;
 
 namespace EffectBlueprintEditorPlugin
 {
@@ -181,7 +182,7 @@ namespace EffectBlueprintEditorPlugin
                     }
 
                     // Add New Param
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, pgAsset, vsfParams));
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, pgAsset, vsfParams, new Action<object>((_) => GetEffectStackItems(asset.RootObject))));
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {

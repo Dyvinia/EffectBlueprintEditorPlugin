@@ -210,7 +210,7 @@ namespace EffectBlueprintEditorPlugin
 
         public ICommand ButtonClickedCommand { get; set; }
 
-        public EffectStackItemData(dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams) {
+        public EffectStackItemData(dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, Action<object> refreshAction) {
             propertyGrid = pg;
             Value = obj;
 
@@ -237,7 +237,7 @@ namespace EffectBlueprintEditorPlugin
                     propertyGrid.Modified = true;
 
                 }
-            });
+            } + refreshAction);
 
             NewPropVisiblity = Visibility.Visible;
         }
