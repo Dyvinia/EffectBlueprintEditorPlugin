@@ -179,6 +179,9 @@ namespace EffectBlueprintEditorPlugin
                             EmitterStackItems.Add(new EffectStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
                         }
                     }
+
+                    // Add New Param
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, pgAsset, vsfParams));
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {

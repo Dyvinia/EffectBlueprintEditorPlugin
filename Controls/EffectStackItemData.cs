@@ -1,10 +1,11 @@
-﻿using Frosty.Core.Controls;
+﻿using EffectBlueprintEditorPlugin.Windows;
+using Frosty.Core;
+using Frosty.Core.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace EffectBlueprintEditorPlugin
 {
@@ -21,9 +22,12 @@ namespace EffectBlueprintEditorPlugin
 
         #region -- Properties --
 
-        public Visibility HeaderVisiblity { get; set; }
-        public Visibility ValuesVisiblity { get; set; }
+        public Visibility HeaderVisiblity { get; set; } = Visibility.Collapsed;
+
+        public Visibility ValuesVisiblity { get; set; } = Visibility.Collapsed;
         public Visibility SingleVisiblity { get; set; } = Visibility.Collapsed;
+
+        public Visibility NewPropVisiblity { get; set; } = Visibility.Collapsed;
 
         public GridLength WWidth { get; set; } = new GridLength(1, GridUnitType.Star);
 
@@ -139,7 +143,7 @@ namespace EffectBlueprintEditorPlugin
             ZName = $"Z [{propertyId}]";
             WName = $"W [{propertyId}]";
 
-            HeaderVisiblity = Visibility.Collapsed;
+            ValuesVisiblity = Visibility.Visible;
 
             if (vsfParams.TryGetValue(propertyId, out string[] egParams)) {
                 switch (egParams?.Length) {
@@ -192,9 +196,6 @@ namespace EffectBlueprintEditorPlugin
             Value = obj;
 
             SingleName = valueName;
-
-            HeaderVisiblity = Visibility.Collapsed;
-            ValuesVisiblity = Visibility.Collapsed;
             SingleVisiblity = Visibility.Visible;
         }
 
@@ -203,7 +204,42 @@ namespace EffectBlueprintEditorPlugin
             Value = obj;
 
             HeaderText = headerText;
-            ValuesVisiblity = Visibility.Collapsed;
+            HeaderVisiblity = Visibility.Visible;
+        }
+
+
+        public ICommand ButtonClickedCommand { get; set; }
+
+        public EffectStackItemData(dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams) {
+            propertyGrid = pg;
+            Value = obj;
+
+            ButtonClickedCommand = new RelayCommand((_) => {
+                dynamic currentVsf = Value.EmitterGraphParams;
+
+                dynamic[] egParams = App.AssetManager.GetEbx(App.AssetManager.GetEbxEntry(Value.EmitterGraph.External.FileGuid)).RootObject.EmitterGraphParams.ToArray();
+
+                NewParamWindow newParamWin = new NewParamWindow(vsfParams, currentVsf);
+
+                if (newParamWin.ShowDialog() == true) {
+                    // i think i have to clone it?
+                    dynamic newParam = Activator.CreateInstance(currentVsf.GetType().GetGenericArguments()[0]);
+
+                    dynamic newParamRef = egParams.Where(p => p.PropertyId == newParamWin.SelectedParam).FirstOrDefault();
+                    newParam.PropertyId = newParamRef.PropertyId;
+                    newParam.Value.x = newParamRef.Value.x;
+                    newParam.Value.y = newParamRef.Value.y;
+                    newParam.Value.z = newParamRef.Value.z;
+                    newParam.Value.w = newParamRef.Value.w;
+
+                    currentVsf.Add(newParam);
+
+                    propertyGrid.Modified = true;
+
+                }
+            });
+
+            NewPropVisiblity = Visibility.Visible;
         }
 
         #endregion

@@ -153,13 +153,15 @@
                 <ControlTemplate TargetType="{x:Type local:EffectStackItem}">
                     <Grid Margin="1" HorizontalAlignment="Center" ToolTip="{Binding Path=ItemToolTip}">
                         <UniformGrid>
+                            
+                            <!-- Header -->
                             <StackPanel Orientation="Horizontal"  Width="420" Margin="0 8 0 0" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" >
                                 <CheckBox IsChecked="{Binding Path=ComponentEnabled, Mode=TwoWay}" Margin="0 2 4 0"/>
                                 <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Left"/>
                             </StackPanel>
-                            
 
-                            <Grid Background="#393939" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
+                            <!-- Values -->
+                            <Grid Background="#383838" HorizontalAlignment="Center" Visibility="{Binding Path=ValuesVisiblity, Mode=TwoWay}" Width="420">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -191,11 +193,21 @@
                                 <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left" Margin="2"/>
                             </Grid>
 
+                            <!-- Single Value -->
                             <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=SingleVisiblity, Mode=TwoWay}" Width="420">
                                 <StackPanel Orientation="Vertical" Margin="2">
                                     <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left"/>
                                     <TextBox Text="{Binding Path=SingleValue, Mode=TwoWay}"/>
                                 </StackPanel>
+                            </Grid>
+
+                            <!-- New Property Button -->
+                            <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=NewPropVisiblity, Mode=TwoWay}" Height="20" Width="420">
+                                <Button Command="{Binding Path=ButtonClickedCommand, Mode=TwoWay}" ToolTip="Add New Property">
+                                    <Button.Content>
+                                        <Image Source="/FrostyEditor;component/Images/Add.png" Width="12"/>
+                                    </Button.Content>
+                                </Button>
                             </Grid>
 
                         </UniformGrid>
