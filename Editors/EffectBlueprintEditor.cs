@@ -132,9 +132,11 @@ namespace EffectBlueprintEditorPlugin
 
         void GetEffectStackItems(dynamic obj)
         {
-            if (!showEditor) return;
-            
             EmitterStackItems.Clear();
+
+            if (!showEditor) return;
+            if (obj.Object.Internal is null) return;
+
             int count = 0;
             foreach (dynamic component in obj.Object.Internal.Components) {
                 if (component.Internal == null) continue;
