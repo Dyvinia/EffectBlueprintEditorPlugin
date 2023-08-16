@@ -192,8 +192,8 @@
 
                                     <Grid.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand, Mode=TwoWay}"/>
-                                            <MenuItem Header="Paste" Command="{Binding Path=PasteCommand, Mode=TwoWay}"/>
+                                            <MenuItem Header="Copy Values" Command="{Binding Path=CopyCommand, Mode=TwoWay}"/>
+                                            <MenuItem Header="Paste Values" Command="{Binding Path=PasteCommand, Mode=TwoWay}"/>
                                         </ContextMenu>
                                     </Grid.ContextMenu>
                                 </Grid>
