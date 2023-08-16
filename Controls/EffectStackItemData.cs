@@ -131,6 +131,9 @@ namespace EffectBlueprintEditorPlugin
 
         #region -- Constructors --
 
+        public ICommand CopyCommand { get; set; }
+        public ICommand PasteCommand { get; set; }
+
         public EffectStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams)
         {
             propertyGrid = pg;
@@ -189,6 +192,29 @@ namespace EffectBlueprintEditorPlugin
             if (obj.GetType().Name == "Vec3") {
                 WWidth = new GridLength(0, GridUnitType.Star);
             }
+
+            CopyCommand = new RelayCommand((_) => {
+                Clipboard.SetText($"{XValue}/{YValue}/{ZValue}/{WValue}");
+            });
+
+            PasteCommand = new RelayCommand((_) => {
+                string clipboard = Clipboard.GetText();
+                string[] values = clipboard.Trim().Split('/');
+
+                if (values.Length == 4) {
+                    if (float.TryParse(values[0], out float resultX))
+                        XValue = resultX;
+
+                    if (float.TryParse(values[1], out float resultY))
+                        YValue = resultY;
+
+                    if (float.TryParse(values[2], out float resultZ))
+                        ZValue = resultZ;
+
+                    if (float.TryParse(values[3], out float resultW))
+                        WValue = resultW;
+                }
+            });
         }
 
         public EffectStackItemData(dynamic obj, string valueName, FrostyPropertyGrid pg) {

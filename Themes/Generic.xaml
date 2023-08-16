@@ -189,6 +189,13 @@
                                         <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Left"/>
                                         <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
                                     </StackPanel>
+
+                                    <Grid.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Copy" Command="{Binding Path=CopyCommand, Mode=TwoWay}"/>
+                                            <MenuItem Header="Paste" Command="{Binding Path=PasteCommand, Mode=TwoWay}"/>
+                                        </ContextMenu>
+                                    </Grid.ContextMenu>
                                 </Grid>
                                 <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left" Margin="2"/>
                             </Grid>
