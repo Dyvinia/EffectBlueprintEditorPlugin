@@ -4,6 +4,7 @@ using Frosty.Core.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Windows;
 using System.Windows.Input;
 
@@ -194,14 +195,23 @@ namespace EffectBlueprintEditorPlugin
             }
 
             CopyCommand = new RelayCommand((_) => {
-                Clipboard.SetText($"{XValue}/{YValue}/{ZValue}/{WValue}");
+                try {
+                    if (obj.GetType().Name == "Vec3")
+                        Clipboard.SetText($"{XValue}/{YValue}/{ZValue}");
+                    else
+                        Clipboard.SetText($"{XValue}/{YValue}/{ZValue}/{WValue}");
+                }
+                catch (Exception e) {
+                    SystemSounds.Hand.Play();
+                    App.Logger.LogError($"Unable To Copy to Clipboard: {e.Message}");
+                }
             });
 
             PasteCommand = new RelayCommand((_) => {
                 string clipboard = Clipboard.GetText();
                 string[] values = clipboard.Trim().Split('/');
 
-                if (values.Length == 4) {
+                if (values.Length >= 3) {
                     if (float.TryParse(values[0], out float resultX))
                         XValue = resultX;
 
@@ -211,7 +221,7 @@ namespace EffectBlueprintEditorPlugin
                     if (float.TryParse(values[2], out float resultZ))
                         ZValue = resultZ;
 
-                    if (float.TryParse(values[3], out float resultW))
+                    if (values.Length == 4 && float.TryParse(values[3], out float resultW))
                         WValue = resultW;
                 }
             });
