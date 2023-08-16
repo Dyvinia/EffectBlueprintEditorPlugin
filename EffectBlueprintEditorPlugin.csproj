@@ -57,6 +57,8 @@
     </Reference>
     <Reference Include="FrostySdk">
       <HintPath>D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final\FrostySdk.dll</HintPath>
+      <!--D:\SWBF Mods\Frosty Editor\Alpha 107 GH-->
+      <!--D:\Development\repos\Dyvinia\FrostyToolsuite\FrostyEditor\bin\Release\Final-->
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
