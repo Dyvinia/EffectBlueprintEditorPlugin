@@ -272,10 +272,10 @@ namespace EffectBlueprintEditorPlugin
                         YValue = values[1];
 
                     if (float.TryParse(values[2], out float _))
-                        ZValue = values[1];
+                        ZValue = values[2];
 
                     if (values.Length == 4 && float.TryParse(values[3], out float _))
-                        WValue = values[1];
+                        WValue = values[3];
                 }
             });
         }
