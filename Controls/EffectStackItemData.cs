@@ -314,7 +314,7 @@ namespace EffectBlueprintEditorPlugin
                     // i think i have to clone it?
                     dynamic newParam = Activator.CreateInstance(currentVsf.GetType().GetGenericArguments()[0]);
 
-                    dynamic newParamRef = egParams.Where(p => p.PropertyId == newParamWin.SelectedParam).FirstOrDefault();
+                    dynamic newParamRef = egParams.FirstOrDefault(p => p.PropertyId == newParamWin.SelectedParam);
                     newParam.PropertyId = newParamRef.PropertyId;
                     newParam.Value.x = newParamRef.Value.x;
                     newParam.Value.y = newParamRef.Value.y;
