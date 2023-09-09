@@ -9,7 +9,6 @@ using System.Collections.ObjectModel;
 using Frosty.Controls;
 using System.Linq;
 using System.Windows.Controls.Primitives;
-using EffectBlueprintEditorPlugin.Windows;
 
 namespace EffectBlueprintEditorPlugin
 {
@@ -135,11 +134,11 @@ namespace EffectBlueprintEditorPlugin
             EmitterStackItems.Clear();
 
             if (!showEditor) return;
-            if (obj.Object.Internal is null) return;
+            if (obj?.Object?.Internal is null) return;
 
             int count = 0;
             foreach (dynamic component in obj.Object.Internal.Components) {
-                if (component.Internal == null) continue;
+                if (component?.Internal is null) continue;
 
                 if (component.Internal.GetType().Name == "EmitterGraphEntityData" && showEGButton.IsChecked) {
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
@@ -195,7 +194,7 @@ namespace EffectBlueprintEditorPlugin
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
                     }
 
-                    if (component.Internal.Light.Internal == null) continue;
+                    if (component?.Internal?.Light?.Internal is null) continue;
 
                     EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
                     
@@ -224,7 +223,6 @@ namespace EffectBlueprintEditorPlugin
 
                     EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
                 }
-
 
                 count++;
             }
