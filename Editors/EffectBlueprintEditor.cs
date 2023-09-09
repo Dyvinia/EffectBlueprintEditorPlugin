@@ -145,7 +145,7 @@ namespace EffectBlueprintEditorPlugin
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
 
                     // Header
-                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}", true, pgAsset));
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", true, pgAsset));
 
                     if (!VSF.TryGetValue(reference.Name, out Dictionary<int, string[]> vsfParams)) {
                         vsfParams = new Dictionary<int, string[]>();
@@ -216,7 +216,7 @@ namespace EffectBlueprintEditorPlugin
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.Emitter.External.FileGuid);
 
                     // Header
-                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference.DisplayName}", true, pgAsset));
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", true, pgAsset));
 
                     if (showTransformsButton.IsChecked == true) {
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
