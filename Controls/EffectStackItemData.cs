@@ -274,7 +274,7 @@ namespace EffectBlueprintEditorPlugin
                     if (float.TryParse(values[2], out float _))
                         ZValue = values[2];
 
-                    if (values.Length == 4 && float.TryParse(values[3], out float _))
+                    if (values.Length == 4 && obj.GetType().Name != "Vec3" && float.TryParse(values[3], out float _))
                         WValue = values[3];
                 }
             });
