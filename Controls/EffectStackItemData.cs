@@ -5,8 +5,10 @@ using System.Linq;
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
+using SharpDX;
 using Frosty.Core;
 using Frosty.Core.Controls;
+using Frosty.Core.Viewport;
 using FrostySdk.Ebx;
 using EffectBlueprintEditorPlugin.Windows;
 
@@ -29,6 +31,7 @@ namespace EffectBlueprintEditorPlugin {
         public Visibility SingleVisiblity { get; set; } = Visibility.Collapsed;
 
         public Visibility NewPropVisiblity { get; set; } = Visibility.Collapsed;
+        public Visibility TransformVisiblity { get; set; } = Visibility.Collapsed;
 
         public GridLength WWidth { get; set; } = new GridLength(1, GridUnitType.Star);
 
@@ -126,6 +129,200 @@ namespace EffectBlueprintEditorPlugin {
             }
         }
 
+        public dynamic Transform;
+
+        public string XLoc {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Translate.x.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform?.trans.x != result) {
+                    Transform.Translate.x = result;
+                    SetTrans();
+                    RaisePropertyChanged("XLoc");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Translate.x = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("XLoc");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+        public string YLoc {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Translate.y.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform?.trans.y != result) {
+                    Transform.Translate.y = result;
+                    SetTrans();
+                    RaisePropertyChanged("YLoc");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Translate.y = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("YLoc");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+        public string ZLoc {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Translate.z.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform?.trans.z != result) {
+                    Transform.Translate.z = result;
+                    SetTrans();
+                    RaisePropertyChanged("ZLoc");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Translate.z = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("ZLoc");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+
+        public string XRot {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Rotation.x.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform.Rotation.x != result) {
+                    Transform.Rotation.x = result;
+                    SetTrans();
+                    RaisePropertyChanged("XRot");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Rotation.x = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("XRot");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+        public string YRot {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Rotation.y.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform.Rotation.y != result) {
+                    Transform.Rotation.y = result;
+                    SetTrans();
+                    RaisePropertyChanged("YRot");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Rotation.y = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("YRot");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+        public string ZRot {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Rotation.z.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform.Rotation.z != result) {
+                    Transform.Rotation.z = result;
+                    SetTrans();
+                    RaisePropertyChanged("ZRot");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Rotation.z = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("ZRot");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+
+        public string XScale {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Scale.x.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform.Scale.x != result) {
+                    Transform.Scale.x = result;
+                    SetTrans();
+                    RaisePropertyChanged("XScale");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Scale.x = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("XScale");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+        public string YScale {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Scale.y.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform.Scale.y != result) {
+                    Transform.Scale.y = result;
+                    SetTrans();
+                    RaisePropertyChanged("YScale");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Scale.y = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("YScale");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+        public string ZScale {
+            get {
+                if (Transform != null)
+                    GetTrans();
+                return Transform?.Scale.z.ToString();
+            }
+            set {
+                if (float.TryParse(value, out float result) && Transform.Scale.z != result) {
+                    Transform.Scale.z = result;
+                    SetTrans();
+                    RaisePropertyChanged("ZScale");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Transform.Scale.z = mathResult;
+                    SetTrans();
+                    RaisePropertyChanged("ZScale");
+                    propertyGrid.Modified = true;
+                }
+            }
+        }
+
         public bool? ComponentEnabled {
             get {
                 if (Value.GetType().Name == "PointerRef") {
@@ -176,6 +373,54 @@ namespace EffectBlueprintEditorPlugin {
                 result = float.NaN;
                 return false;
             }
+        }
+
+        public void GetTrans() {
+            if (Transform.Rotation.x >= float.MaxValue) {
+                Matrix matrix = new Matrix(
+                        Transform.right.x, Transform.right.y, Transform.right.z, 0.0f,
+                        Transform.up.x, Transform.up.y, Transform.up.z, 0.0f,
+                        Transform.forward.x, Transform.forward.y, Transform.forward.z, 0.0f,
+                        Transform.trans.x, Transform.trans.y, Transform.trans.z, 1.0f
+                        );
+
+                matrix.Decompose(out Vector3 scale, out Quaternion rotation, out Vector3 translation);
+                Vector3 euler = SharpDXUtils.ExtractEulerAngles(matrix);
+
+                Transform.Translate.x = translation.X;
+                Transform.Translate.y = translation.Y;
+                Transform.Translate.z = translation.Z;
+
+                Transform.Scale.x = scale.X;
+                Transform.Scale.y = scale.Y;
+                Transform.Scale.z = scale.Z;
+
+                Transform.Rotation.x = euler.X;
+                Transform.Rotation.y = euler.Y;
+                Transform.Rotation.z = euler.Z;
+            }
+        }
+
+        public void SetTrans() {
+            float val = (float)(Math.PI / 180.0);
+            Matrix m = Matrix.RotationX(Transform.Rotation.x * val) * Matrix.RotationY(Transform.Rotation.y * val) * Matrix.RotationZ(Transform.Rotation.z * val);
+            m *= Matrix.Scaling(Transform.Scale.x, Transform.Scale.y, Transform.Scale.z);
+
+            Transform.trans.x = Transform.Translate.x;
+            Transform.trans.y = Transform.Translate.y;
+            Transform.trans.z = Transform.Translate.z;
+
+            Transform.right.x = m.M11;
+            Transform.right.y = m.M12;
+            Transform.right.z = m.M13;
+
+            Transform.up.x = m.M21;
+            Transform.up.y = m.M22;
+            Transform.up.z = m.M23;
+
+            Transform.forward.x = m.M31;
+            Transform.forward.y = m.M32;
+            Transform.forward.z = m.M33;
         }
 
         #endregion
@@ -350,6 +595,13 @@ namespace EffectBlueprintEditorPlugin {
             + refreshAction);
 
             NewPropVisiblity = Visibility.Visible;
+        }
+
+        public EffectStackItemData(dynamic obj, FrostyPropertyGrid pg) {
+            propertyGrid = pg;
+            Transform = obj;
+
+            TransformVisiblity = Visibility.Visible;
         }
 
         #endregion

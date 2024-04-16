@@ -85,7 +85,7 @@ namespace EffectBlueprintEditorPlugin {
             base.OnApplyTemplate();
 
             pgAsset = GetTemplateChild(PART_AssetPropertyGrid) as FrostyPropertyGrid;
-            pgAsset.OnModified += PgAsset_OnModified;
+            pgAsset.OnModified += (s, e) => GetEffectStackItems(asset.RootObject);
             emitterStackPanel = GetTemplateChild(PART_EmitterStackPanel) as FrostyDockablePanel;
             emitterStack = GetTemplateChild(PART_EmitterStack) as ItemsControl;
             emitterStack.Loaded += EmitterStack_Loaded;
@@ -174,9 +174,8 @@ namespace EffectBlueprintEditorPlugin {
                         VSF.Add(reference.Name, vsfParams);
                     }
 
-                    if (showTransformsButton.IsChecked == true) {
-                        EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
-                    }
+                    if (showTransformsButton.IsChecked == true)
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Transform, pgAsset));
 
                     EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
 
@@ -194,9 +193,8 @@ namespace EffectBlueprintEditorPlugin {
                     // Header
                     EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {component.Internal.Light.Internal?.__Id}", (List<PointerRef>)obj.Object.Internal.Components, pgAsset, refreshPropertyGrid + refreshEffectStack));
 
-                    if (showTransformsButton.IsChecked == true) {
-                        EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
-                    }
+                    if (showTransformsButton.IsChecked == true)
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Transform, pgAsset));
 
                     if (component?.Internal?.Light?.Internal is null) continue;
 
@@ -221,9 +219,8 @@ namespace EffectBlueprintEditorPlugin {
                     // Header
                     EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", (List<PointerRef>)obj.Object.Internal.Components, pgAsset, refreshPropertyGrid + refreshEffectStack));
 
-                    if (showTransformsButton.IsChecked == true) {
-                        EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
-                    }
+                    if (showTransformsButton.IsChecked == true)
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Transform, pgAsset));
 
                     EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
                 }
@@ -233,10 +230,6 @@ namespace EffectBlueprintEditorPlugin {
         }
 
         #region -- Control Events --
-
-        private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e) {
-            GetEffectStackItems(asset.RootObject);
-        }
 
         private void EmitterStack_Loaded(object sender, RoutedEventArgs e) {
         }

@@ -207,6 +207,45 @@
                                 <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left" Margin="2"/>
                             </Grid>
 
+                            <!-- Transform -->
+                            <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=TransformVisiblity, Mode=TwoWay}" Width="420">
+                                <StackPanel Margin="2">
+                                    <TextBlock Text="Transforms" HorizontalAlignment="Left"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Text="{Binding Path=XLoc, Mode=TwoWay}" />
+                                        <TextBox Grid.Column="1" Text="{Binding Path=YLoc, Mode=TwoWay}" Margin="2 0 0 0"/>
+                                        <TextBox Grid.Column="2" Text="{Binding Path=ZLoc, Mode=TwoWay}" Margin="2 0 0 0"/>
+                                    </Grid>
+                                    <Grid Height="2"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Text="{Binding Path=XRot, Mode=TwoWay}" />
+                                        <TextBox Grid.Column="1" Text="{Binding Path=YRot, Mode=TwoWay}" Margin="2 0 0 0"/>
+                                        <TextBox Grid.Column="2" Text="{Binding Path=ZRot, Mode=TwoWay}" Margin="2 0 0 0"/>
+                                    </Grid>
+                                    <Grid Height="2"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Text="{Binding Path=XScale, Mode=TwoWay}" />
+                                        <TextBox Grid.Column="1" Text="{Binding Path=YScale, Mode=TwoWay}" Margin="2 0 0 0"/>
+                                        <TextBox Grid.Column="2" Text="{Binding Path=ZScale, Mode=TwoWay}" Margin="2 0 0 0"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+
                             <!-- Single Value -->
                             <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=SingleVisiblity, Mode=TwoWay}" Width="420">
                                 <StackPanel Orientation="Vertical" Margin="2">
