@@ -1,20 +1,17 @@
-﻿using EffectBlueprintEditorPlugin.Windows;
-using Frosty.Core;
-using Frosty.Core.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
+using Frosty.Core;
+using Frosty.Core.Controls;
+using FrostySdk.Ebx;
+using EffectBlueprintEditorPlugin.Windows;
 
-namespace EffectBlueprintEditorPlugin
-{
-    public class EffectStackItemData : BaseViewModel
-    {
+namespace EffectBlueprintEditorPlugin {
+    public class EffectStackItemData : BaseViewModel {
 
         #region -- Fields --
 
@@ -188,8 +185,7 @@ namespace EffectBlueprintEditorPlugin
         public ICommand CopyCommand { get; set; }
         public ICommand PasteCommand { get; set; }
 
-        public EffectStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams)
-        {
+        public EffectStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams) {
             propertyGrid = pg;
             Value = obj;
 
@@ -288,12 +284,36 @@ namespace EffectBlueprintEditorPlugin
             SingleVisiblity = Visibility.Visible;
         }
 
-        public EffectStackItemData(dynamic obj, string headerText, bool isEnabled, FrostyPropertyGrid pg) {
+        public EffectStackItemData(dynamic obj, string headerText, List<PointerRef> components, FrostyPropertyGrid pg, Action<object> refreshAction) {
             propertyGrid = pg;
             Value = obj;
 
             HeaderText = headerText;
             HeaderVisiblity = Visibility.Visible;
+
+            CopyCommand = new RelayCommand((_) => {
+                try {
+                    FrostyClipboard.Current.SetData(new PointerRef(Value.Internal));
+                }
+                catch (Exception e) {
+                    SystemSounds.Hand.Play();
+                    App.Logger.LogError($"Unable To Copy to Clipboard: {e.Message}");
+                }
+            });
+
+            PasteCommand = new RelayCommand((_) => {
+                if (FrostyClipboard.Current.HasData) {
+                    dynamic clipboardData = FrostyClipboard.Current.GetData(pg.Asset, App.AssetManager.GetEbxEntry(pg.Asset.FileGuid));
+                    clipboardData = clipboardData?.Internal;
+
+                    if (clipboardData is null)
+                        return;
+
+                    components[components.IndexOf(obj)] = new PointerRef((object)clipboardData);
+
+                    propertyGrid.Modified = true;
+                }
+            } + refreshAction);
         }
 
 
@@ -326,7 +346,8 @@ namespace EffectBlueprintEditorPlugin
                     propertyGrid.Modified = true;
 
                 }
-            } + refreshAction);
+            }
+            + refreshAction);
 
             NewPropVisiblity = Visibility.Visible;
         }

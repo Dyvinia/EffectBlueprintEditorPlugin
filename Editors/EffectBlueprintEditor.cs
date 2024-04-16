@@ -9,17 +9,16 @@ using System.Collections.ObjectModel;
 using Frosty.Controls;
 using System.Linq;
 using System.Windows.Controls.Primitives;
+using FrostySdk.Ebx;
 
-namespace EffectBlueprintEditorPlugin
-{
+namespace EffectBlueprintEditorPlugin {
     [TemplatePart(Name = PART_EmitterStackPanel, Type = typeof(FrostyDockablePanel))]
     [TemplatePart(Name = PART_EmitterStack, Type = typeof(ItemsControl))]
     [TemplatePart(Name = PART_EmitterStackColumn, Type = typeof(ColumnDefinition))]
     [TemplatePart(Name = PART_Refresh, Type = typeof(Button))]
     [TemplatePart(Name = PART_AutoRefresh, Type = typeof(ToggleButton))]
     [TemplatePart(Name = PART_ShowUnknown, Type = typeof(ToggleButton))]
-    public class EffectBlueprintEditor : FrostyAssetEditor
-    {
+    public class EffectBlueprintEditor : FrostyAssetEditor {
 
         #region -- Part Names --
 
@@ -61,29 +60,28 @@ namespace EffectBlueprintEditorPlugin
 
         Dictionary<string, Dictionary<int, string[]>> VSF = new Dictionary<string, Dictionary<int, string[]>>();
 
+        private Action<object> refreshPropertyGrid;
+        private Action<object> refreshEffectStack;
+
         #region -- Constructors --
 
-        static EffectBlueprintEditor()
-        {
+        static EffectBlueprintEditor() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(EffectBlueprintEditor), new FrameworkPropertyMetadata(typeof(EffectBlueprintEditor)));
         }
 
         public EffectBlueprintEditor()
-            : base(null)
-        {
+            : base(null) {
             EmitterStackItems = new ObservableCollection<EffectStackItemData>();
         }
 
         public EffectBlueprintEditor(ILogger inLogger)
-            : base(inLogger)
-        {
+            : base(inLogger) {
             EmitterStackItems = new ObservableCollection<EffectStackItemData>();
         }
 
         #endregion
 
-        public override void OnApplyTemplate()
-        {
+        public override void OnApplyTemplate() {
             base.OnApplyTemplate();
 
             pgAsset = GetTemplateChild(PART_AssetPropertyGrid) as FrostyPropertyGrid;
@@ -101,23 +99,30 @@ namespace EffectBlueprintEditorPlugin
             autoRefreshButton = GetTemplateChild(PART_AutoRefresh) as ToggleButton;
 
             showEMButton = GetTemplateChild(PART_ShowEM) as ToggleButton;
-            showEMButton.Click += RefreshButton_Click;
+            showEMButton.Click += (s, e) => refreshEffectStack.Invoke(null);
             showEGButton = GetTemplateChild(PART_ShowEG) as ToggleButton;
-            showEGButton.Click += RefreshButton_Click;
+            showEGButton.Click += (s, e) => refreshEffectStack.Invoke(null);
             showLEButton = GetTemplateChild(PART_ShowLE) as ToggleButton;
-            showLEButton.Click += RefreshButton_Click;
+            showLEButton.Click += (s, e) => refreshEffectStack.Invoke(null);
 
             showTransformsButton = GetTemplateChild(PART_ShowTransforms) as ToggleButton;
-            showTransformsButton.Click += RefreshButton_Click;
+            showTransformsButton.Click += (s, e) => refreshEffectStack.Invoke(null);
 
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
-            showUnknownButton.Click += RefreshButton_Click;
+            showUnknownButton.Click += (s, e) => refreshEffectStack.Invoke(null);
 
             Loaded += Editor_Loaded;
+
+            refreshPropertyGrid = new Action<object>((_) => {
+                pgAsset.Object = asset.RootObject;
+                pgAsset.Object = ((dynamic)asset.RootObject).Object.Internal;
+            });
+            refreshEffectStack = new Action<object>((_) => GetEffectStackItems(asset.RootObject));
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e) {
-            GetEffectStackItems(asset.RootObject);
+            refreshPropertyGrid.Invoke(null);
+            refreshEffectStack.Invoke(null);
         }
 
         private void Editor_Loaded(object sender, RoutedEventArgs e) {
@@ -129,8 +134,7 @@ namespace EffectBlueprintEditorPlugin
                 pgAsset.Object = obj.Object.Internal;
         }
 
-        void GetEffectStackItems(dynamic obj)
-        {
+        void GetEffectStackItems(dynamic obj) {
             EmitterStackItems.Clear();
 
             if (!showEditor) return;
@@ -144,7 +148,7 @@ namespace EffectBlueprintEditorPlugin
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.EmitterGraph.External.FileGuid);
 
                     // Header
-                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", true, pgAsset));
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", (List<PointerRef>)obj.Object.Internal.Components, pgAsset, refreshPropertyGrid + refreshEffectStack));
 
                     if (!VSF.TryGetValue(reference.Name, out Dictionary<int, string[]> vsfParams)) {
                         vsfParams = new Dictionary<int, string[]>();
@@ -183,12 +187,12 @@ namespace EffectBlueprintEditorPlugin
                     }
 
                     // Add New Param
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, pgAsset, vsfParams, new Action<object>((_) => GetEffectStackItems(asset.RootObject))));
+                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, pgAsset, vsfParams, refreshEffectStack));
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {
                     // Header
-                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {component.Internal.Light.Internal?.__Id}", true, pgAsset));
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {component.Internal.Light.Internal?.__Id}", (List<PointerRef>)obj.Object.Internal.Components, pgAsset, refreshPropertyGrid + refreshEffectStack));
 
                     if (showTransformsButton.IsChecked == true) {
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
@@ -197,7 +201,7 @@ namespace EffectBlueprintEditorPlugin
                     if (component?.Internal?.Light?.Internal is null) continue;
 
                     EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
-                    
+
                     EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "Intensity", pgAsset));
                     EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationRadius", pgAsset));
                     EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationOffset", pgAsset));
@@ -215,7 +219,7 @@ namespace EffectBlueprintEditorPlugin
                     dynamic reference = App.AssetManager.GetEbxEntry(component.Internal.Emitter.External.FileGuid);
 
                     // Header
-                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", true, pgAsset));
+                    EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", (List<PointerRef>)obj.Object.Internal.Components, pgAsset, refreshPropertyGrid + refreshEffectStack));
 
                     if (showTransformsButton.IsChecked == true) {
                         EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Transform.trans, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Translation" } } }));
@@ -226,29 +230,22 @@ namespace EffectBlueprintEditorPlugin
 
                 count++;
             }
-            refreshButton.IsEnabled = false;
         }
 
         #region -- Control Events --
 
-        private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e)
-        {
-            if (autoRefreshButton.IsChecked == true)
-                GetEffectStackItems(asset.RootObject);
-            else
-                refreshButton.IsEnabled = true;
+        private void PgAsset_OnModified(object sender, ItemModifiedEventArgs e) {
+            GetEffectStackItems(asset.RootObject);
         }
 
-        private void EmitterStack_Loaded(object sender, RoutedEventArgs e)
-        {
+        private void EmitterStack_Loaded(object sender, RoutedEventArgs e) {
         }
 
         #endregion
 
         #region -- Toolbar --
 
-        public override List<ToolbarItem> RegisterToolbarItems()
-        {
+        public override List<ToolbarItem> RegisterToolbarItems() {
             return new List<ToolbarItem>()
             {
                 new ToolbarItem("Editor", "Editor View", "", new RelayCommand((object state) => { EnableEditor(); })),
@@ -256,16 +253,14 @@ namespace EffectBlueprintEditorPlugin
             };
         }
 
-        private void DisableEditor()
-        {
+        private void DisableEditor() {
             showEditor = false;
             pgAsset.Object = asset.RootObject;
             EmitterStackItems.Clear();
             emitterStackColumn.Width = new GridLength(0);
         }
 
-        private void EnableEditor()
-        {
+        private void EnableEditor() {
             showEditor = true;
             dynamic obj = asset.RootObject;
             pgAsset.Object = obj.Object.Internal;

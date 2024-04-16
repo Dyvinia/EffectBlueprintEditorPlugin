@@ -43,7 +43,7 @@
                                                                 </Grid>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
-                                                        
+
                                                         <ToggleButton x:Name="PART_ShowEG" IsChecked="True" Width="22" Margin="1" ToolTip="Show EmitterGraphs" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
@@ -90,15 +90,15 @@
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
-                                                        <Button x:Name="PART_Refresh" Visibility="Collapsed" Width="22" Height="22" Margin="1" ToolTip="Refresh" Style="{StaticResource {x:Type Button}}">
+                                                        <Button x:Name="PART_Refresh" Width="22" Height="22" Margin="1" ToolTip="Refresh Property Grid" Style="{StaticResource {x:Type Button}}">
                                                             <Button.Content>
                                                                 <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Refresh.png"/>
                                                             </Button.Content>
                                                         </Button>
                                                     </StackPanel>
                                                 </Grid>
-                                                
-                                                
+
+
                                             </Border>
                                         </DockPanel>
                                     </Border>
@@ -153,11 +153,18 @@
                 <ControlTemplate TargetType="{x:Type local:EffectStackItem}">
                     <Grid Margin="1" HorizontalAlignment="Center" ToolTip="{Binding Path=ItemToolTip}">
                         <UniformGrid>
-                            
+
                             <!-- Header -->
                             <StackPanel Orientation="Horizontal"  Width="420" Margin="0 8 0 0" Visibility="{Binding Path=HeaderVisiblity, Mode=TwoWay}" >
                                 <CheckBox IsChecked="{Binding Path=ComponentEnabled, Mode=TwoWay}" Margin="0 2 4 0"/>
-                                <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Left"/>
+                                <TextBlock Text="{Binding Path=HeaderText}" HorizontalAlignment="Left">
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="Copy Component" Command="{Binding Path=CopyCommand, Mode=TwoWay}"/>
+                                            <MenuItem Header="Paste Component" Command="{Binding Path=PasteCommand, Mode=TwoWay}"/>
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
                             </StackPanel>
 
                             <!-- Values -->
@@ -240,7 +247,7 @@
                             </Grid>
 
                         </UniformGrid>
-                        
+
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
