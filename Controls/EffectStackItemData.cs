@@ -47,7 +47,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public string XValue {
             get {
-                if (Value.GetType().Name == "Vec4" || Value.GetType().Name == "Vec3")
+                if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
                     return Value.x.ToString();
                 else
                     return string.Empty;
@@ -68,7 +68,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public string YValue {
             get {
-                if (Value.GetType().Name == "Vec4" || Value.GetType().Name == "Vec3")
+                if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
                     return Value.y.ToString();
                 else
                     return string.Empty;
@@ -89,7 +89,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public string ZValue {
             get {
-                if (Value.GetType().Name == "Vec4" || Value.GetType().Name == "Vec3")
+                if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
                     return Value.z.ToString();
                 else
                     return string.Empty;
@@ -110,7 +110,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public string WValue {
             get {
-                if (Value.GetType().Name == "Vec4")
+                if (Value?.GetType().Name == "Vec4")
                     return Value.w.ToString();
                 else
                     return string.Empty;
@@ -133,8 +133,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public string XLoc {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Translate.x.ToString();
             }
             set {
@@ -154,8 +153,7 @@ namespace EffectBlueprintEditorPlugin {
         }
         public string YLoc {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Translate.y.ToString();
             }
             set {
@@ -175,8 +173,7 @@ namespace EffectBlueprintEditorPlugin {
         }
         public string ZLoc {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Translate.z.ToString();
             }
             set {
@@ -197,8 +194,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public string XRot {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Rotation.x.ToString();
             }
             set {
@@ -218,8 +214,7 @@ namespace EffectBlueprintEditorPlugin {
         }
         public string YRot {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Rotation.y.ToString();
             }
             set {
@@ -239,8 +234,7 @@ namespace EffectBlueprintEditorPlugin {
         }
         public string ZRot {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Rotation.z.ToString();
             }
             set {
@@ -261,8 +255,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public string XScale {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Scale.x.ToString();
             }
             set {
@@ -282,8 +275,7 @@ namespace EffectBlueprintEditorPlugin {
         }
         public string YScale {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Scale.y.ToString();
             }
             set {
@@ -303,8 +295,7 @@ namespace EffectBlueprintEditorPlugin {
         }
         public string ZScale {
             get {
-                if (Transform != null)
-                    GetTrans();
+                GetTrans();
                 return Transform?.Scale.z.ToString();
             }
             set {
@@ -325,7 +316,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public bool? ComponentEnabled {
             get {
-                if (Value.GetType().Name == "PointerRef") {
+                if (Value?.GetType().Name == "PointerRef") {
                     dynamic enableScalable = Value.Internal.Enable;
                     if (enableScalable.Low && enableScalable.Medium && enableScalable.High && enableScalable.Ultra)
                         return true;
@@ -376,7 +367,7 @@ namespace EffectBlueprintEditorPlugin {
         }
 
         public void GetTrans() {
-            if (Transform.Rotation.x >= float.MaxValue) {
+            if (Transform?.Rotation.x >= float.MaxValue) {
                 Matrix matrix = new Matrix(
                         Transform.right.x, Transform.right.y, Transform.right.z, 0.0f,
                         Transform.up.x, Transform.up.y, Transform.up.z, 0.0f,
