@@ -368,14 +368,14 @@ namespace EffectBlueprintEditorPlugin {
 
         public void GetTrans() {
             if (Transform?.Rotation.x >= float.MaxValue) {
-                Matrix matrix = new Matrix(
+                Matrix matrix = new(
                         Transform.right.x, Transform.right.y, Transform.right.z, 0.0f,
                         Transform.up.x, Transform.up.y, Transform.up.z, 0.0f,
                         Transform.forward.x, Transform.forward.y, Transform.forward.z, 0.0f,
                         Transform.trans.x, Transform.trans.y, Transform.trans.z, 1.0f
                         );
 
-                matrix.Decompose(out Vector3 scale, out Quaternion rotation, out Vector3 translation);
+                matrix.Decompose(out Vector3 scale, out Quaternion _, out Vector3 translation);
                 Vector3 euler = SharpDXUtils.ExtractEulerAngles(matrix);
 
                 Transform.Translate.x = translation.X;
@@ -564,7 +564,7 @@ namespace EffectBlueprintEditorPlugin {
 
                 dynamic[] egParams = App.AssetManager.GetEbx(App.AssetManager.GetEbxEntry(Value.EmitterGraph.External.FileGuid)).RootObject.EmitterGraphParams.ToArray();
 
-                NewParamWindow newParamWin = new NewParamWindow(vsfParams, currentVsf);
+                NewParamWindow newParamWin = new(vsfParams, currentVsf);
 
                 if (newParamWin.ShowDialog() == true) {
                     // i think i have to clone it?

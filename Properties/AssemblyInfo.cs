@@ -24,6 +24,6 @@ using System.Windows;
 
 [assembly: PluginDisplayName("EffectBlueprint Editor")]
 [assembly: PluginAuthor("Dyvinia")]
-[assembly: PluginVersion("1.6.0")]
+[assembly: PluginVersion("1.7.0")]
 
 [assembly: RegisterAssetDefinition("EffectBlueprint", typeof(EmitterDocumentDefinition))]

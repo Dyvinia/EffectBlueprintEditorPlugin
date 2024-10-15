@@ -34,7 +34,11 @@ namespace EffectBlueprintEditorPlugin {
         private const string PART_ShowLE = "PART_ShowLE";
 
         private const string PART_ShowTransforms = "PART_ShowTransforms";
+        private const string PART_ShowDelay = "PART_ShowDelay";
+        private const string PART_ShowAttr = "PART_ShowAttr";
         private const string PART_ShowUnknown = "PART_ShowUnknown";
+
+        private const string PART_RefreshTime = "PART_RefreshTime";
 
         #endregion
 
@@ -50,7 +54,10 @@ namespace EffectBlueprintEditorPlugin {
         private ToggleButton showEGButton;
         private ToggleButton showLEButton;
         private ToggleButton showTransformsButton;
+        private ToggleButton showDelayButton;
+        private ToggleButton showAttributesButton;
         private ToggleButton showUnknownButton;
+        private TextBlock refreshTimeText;
 
         #endregion
 
@@ -58,7 +65,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public ObservableCollection<EffectStackItemData> EmitterStackItems { get; set; }
 
-        Dictionary<string, Dictionary<int, string[]>> VSF = new Dictionary<string, Dictionary<int, string[]>>();
+        Dictionary<string, Dictionary<int, string[]>> VSF = [];
 
         private Action<object> refreshPropertyGrid;
         private Action<object> refreshEffectStack;
@@ -71,12 +78,12 @@ namespace EffectBlueprintEditorPlugin {
 
         public EffectBlueprintEditor()
             : base(null) {
-            EmitterStackItems = new ObservableCollection<EffectStackItemData>();
+            EmitterStackItems = [];
         }
 
         public EffectBlueprintEditor(ILogger inLogger)
             : base(inLogger) {
-            EmitterStackItems = new ObservableCollection<EffectStackItemData>();
+            EmitterStackItems = [];
         }
 
         #endregion
@@ -108,8 +115,16 @@ namespace EffectBlueprintEditorPlugin {
             showTransformsButton = GetTemplateChild(PART_ShowTransforms) as ToggleButton;
             showTransformsButton.Click += (s, e) => refreshEffectStack.Invoke(null);
 
+            showDelayButton = GetTemplateChild(PART_ShowDelay) as ToggleButton;
+            showDelayButton.Click += (s, e) => refreshEffectStack.Invoke(null);
+
+            showAttributesButton = GetTemplateChild(PART_ShowAttr) as ToggleButton;
+            showAttributesButton.Click += (s, e) => refreshEffectStack.Invoke(null);
+
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
             showUnknownButton.Click += (s, e) => refreshEffectStack.Invoke(null);
+
+            refreshTimeText = GetTemplateChild(PART_RefreshTime) as TextBlock;
 
             Loaded += Editor_Loaded;
 
@@ -135,13 +150,16 @@ namespace EffectBlueprintEditorPlugin {
         }
 
         void GetEffectStackItems(dynamic obj) {
+            //DateTime startTime = DateTime.Now;
+            //emitterStack.ItemsSource = null;
             EmitterStackItems.Clear();
 
             if (!showEditor) return;
             if (obj?.Object?.Internal is null) return;
 
-            int count = 0;
+            int count = -1;
             foreach (dynamic component in obj.Object.Internal.Components) {
+                count++;
                 if (component?.Internal is null) continue;
 
                 if (component.Internal.GetType().Name == "EmitterGraphEntityData" && showEGButton.IsChecked) {
@@ -151,7 +169,7 @@ namespace EffectBlueprintEditorPlugin {
                     EmitterStackItems.Add(new EffectStackItemData(component, $"[{count}] {component.Internal.__Id} - {reference?.DisplayName ?? "Invalid"}", (List<PointerRef>)obj.Object.Internal.Components, pgAsset, refreshPropertyGrid + refreshEffectStack));
 
                     if (!VSF.TryGetValue(reference.Name, out Dictionary<int, string[]> vsfParams)) {
-                        vsfParams = new Dictionary<int, string[]>();
+                        vsfParams = [];
                         try {
                             dynamic eGraph = App.AssetManager.GetEbx(reference).RootObject;
 
@@ -163,7 +181,7 @@ namespace EffectBlueprintEditorPlugin {
                             List<string> vsfParamLines = lines.Where(l => l.Contains("g_emitterGraphParams[") && l.Contains("].xyzw")).ToList();
 
                             for (int i = 0; i < vsfParamLines.Count; i++) {
-                                List<string> param = new List<string>();
+                                List<string> param = [];
                                 foreach (string vsfParamLine in vsfParamLines[i].Split()[3].Split('_')) {
                                     param.Add(char.ToUpper(vsfParamLine[0]) + vsfParamLine.Substring(1));
                                 }
@@ -177,11 +195,14 @@ namespace EffectBlueprintEditorPlugin {
                     if (showTransformsButton.IsChecked == true)
                         EmitterStackItems.Add(new EffectStackItemData(component.Internal.Transform, pgAsset));
 
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
+                    if (showDelayButton.IsChecked == true)
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
 
-                    foreach (dynamic param in component.Internal.EmitterGraphParams) {
-                        if (vsfParams.TryGetValue(param.PropertyId, out string[] _) || showUnknownButton.IsChecked) {
-                            EmitterStackItems.Add(new EffectStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
+                    if (showAttributesButton.IsChecked == true) {
+                        foreach (dynamic param in component.Internal.EmitterGraphParams) {
+                            if (vsfParams.TryGetValue(param.PropertyId, out string[] _) || showUnknownButton.IsChecked) {
+                                EmitterStackItems.Add(new EffectStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
+                            }
                         }
                     }
 
@@ -196,20 +217,25 @@ namespace EffectBlueprintEditorPlugin {
                     if (showTransformsButton.IsChecked == true)
                         EmitterStackItems.Add(new EffectStackItemData(component.Internal.Transform, pgAsset));
 
+                    if (showDelayButton.IsChecked == true)
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
+
                     if (component?.Internal?.Light?.Internal is null) continue;
 
-                    EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
+                    if (showAttributesButton.IsChecked == true) {
+                        EmitterStackItems.Add(new EffectStackItemData(-1, component.Internal.Light.Internal.Color, pgAsset, new Dictionary<int, string[]> { { -1, new string[] { "Color" } } }));
 
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "Intensity", pgAsset));
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationRadius", pgAsset));
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationOffset", pgAsset));
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "Intensity", pgAsset));
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationRadius", pgAsset));
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "AttenuationOffset", pgAsset));
 
-                    if (component.Internal.Light.Internal.GetType().Name == "PbrTubeLightEntityData") {
-                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "TubeRadius", pgAsset));
-                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "TubeWidth", pgAsset));
-                    }
-                    if (component.Internal.Light.Internal.GetType().Name == "PbrSphereLightEntityData") {
-                        //EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "SphereRadius", pgAsset));
+                        if (component.Internal.Light.Internal.GetType().Name == "PbrTubeLightEntityData") {
+                            EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "TubeRadius", pgAsset));
+                            EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "TubeWidth", pgAsset));
+                        }
+                        if (component.Internal.Light.Internal.GetType().Name == "PbrSphereLightEntityData") {
+                            //EmitterStackItems.Add(new EffectStackItemData(component.Internal.Light.Internal, "SphereRadius", pgAsset));
+                        }
                     }
                 }
 
@@ -222,11 +248,13 @@ namespace EffectBlueprintEditorPlugin {
                     if (showTransformsButton.IsChecked == true)
                         EmitterStackItems.Add(new EffectStackItemData(component.Internal.Transform, pgAsset));
 
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
+                    if (showDelayButton.IsChecked == true)
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
                 }
-
-                count++;
             }
+
+            //emitterStack.ItemsSource = EmitterStackItems;
+            //refreshTimeText.Text = $"{(DateTime.Now - startTime).TotalSeconds}s";
         }
 
         #region -- Control Events --
@@ -239,11 +267,11 @@ namespace EffectBlueprintEditorPlugin {
         #region -- Toolbar --
 
         public override List<ToolbarItem> RegisterToolbarItems() {
-            return new List<ToolbarItem>()
-            {
-                new ToolbarItem("Editor", "Editor View", "", new RelayCommand((object state) => { EnableEditor(); })),
-                new ToolbarItem("Standard", "Standard View", "", new RelayCommand((object state) => { DisableEditor(); }))
-            };
+            return
+            [
+                new("Editor", "Editor View", "", new RelayCommand((object state) => { EnableEditor(); })),
+                new("Standard", "Standard View", "", new RelayCommand((object state) => { DisableEditor(); }))
+            ];
         }
 
         private void DisableEditor() {

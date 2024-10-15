@@ -64,11 +64,29 @@
 
                                                         <Border BorderThickness="0.5" Margin="2" BorderBrush="{StaticResource ListBackground}"/>
 
-                                                        <ToggleButton x:Name="PART_ShowTransforms" Width="22" Margin="1" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
+                                                        <ToggleButton x:Name="PART_ShowTransforms" IsChecked="True" Width="22" Margin="1" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
                                                                 <Grid>
                                                                     <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
                                                                     <TextBlock Text="T" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
+
+                                                        <ToggleButton x:Name="PART_ShowDelay" IsChecked="False" Width="22" Margin="1" ToolTip="Show Start Delay" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock Text="D" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </Grid>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
+
+                                                        <ToggleButton x:Name="PART_ShowAttr" IsChecked="True" Width="22" Margin="1" ToolTip="Show Attributes" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Grid>
+                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
+                                                                    <TextBlock Text="A" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                                 </Grid>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
@@ -123,6 +141,9 @@
                                         </ScrollViewer>
                                     </Grid>
 
+                                    <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                                        <TextBlock x:Name="PART_RefreshTime"/>
+                                    </Grid>
                                 </Grid>
                             </Border>
 
