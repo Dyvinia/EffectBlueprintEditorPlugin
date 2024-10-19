@@ -48,7 +48,7 @@ namespace EffectBlueprintEditorPlugin {
         public string XValue {
             get {
                 if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
-                    return Value.x.ToString();
+                    return FloatString(Value.x);
                 else
                     return string.Empty;
             }
@@ -90,7 +90,7 @@ namespace EffectBlueprintEditorPlugin {
         public string ZValue {
             get {
                 if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
-                    return Value.z.ToString();
+                    return FloatString(Value.z);
                 else
                     return string.Empty;
             }
@@ -111,7 +111,7 @@ namespace EffectBlueprintEditorPlugin {
         public string WValue {
             get {
                 if (Value?.GetType().Name == "Vec4")
-                    return Value.w.ToString();
+                    return FloatString(Value.w);
                 else
                     return string.Empty;
             }
@@ -134,7 +134,7 @@ namespace EffectBlueprintEditorPlugin {
         public string XLoc {
             get {
                 GetTrans();
-                return Transform?.Translate.x.ToString();
+                return FloatString(Transform?.Translate.x);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform?.trans.x != result) {
@@ -154,7 +154,7 @@ namespace EffectBlueprintEditorPlugin {
         public string YLoc {
             get {
                 GetTrans();
-                return Transform?.Translate.y.ToString();
+                return FloatString(Transform?.Translate.y);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform?.trans.y != result) {
@@ -174,7 +174,7 @@ namespace EffectBlueprintEditorPlugin {
         public string ZLoc {
             get {
                 GetTrans();
-                return Transform?.Translate.z.ToString();
+                return FloatString(Transform?.Translate.z);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform?.trans.z != result) {
@@ -195,7 +195,7 @@ namespace EffectBlueprintEditorPlugin {
         public string XRot {
             get {
                 GetTrans();
-                return Transform?.Rotation.x.ToString();
+                return FloatString(Transform?.Rotation.x);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform.Rotation.x != result) {
@@ -215,7 +215,7 @@ namespace EffectBlueprintEditorPlugin {
         public string YRot {
             get {
                 GetTrans();
-                return Transform?.Rotation.y.ToString();
+                return FloatString(Transform?.Rotation.y);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform.Rotation.y != result) {
@@ -235,7 +235,7 @@ namespace EffectBlueprintEditorPlugin {
         public string ZRot {
             get {
                 GetTrans();
-                return Transform?.Rotation.z.ToString();
+                return FloatString(Transform?.Rotation.z);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform.Rotation.z != result) {
@@ -256,7 +256,7 @@ namespace EffectBlueprintEditorPlugin {
         public string XScale {
             get {
                 GetTrans();
-                return Transform?.Scale.x.ToString();
+                return FloatString(Transform?.Scale.x);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform.Scale.x != result) {
@@ -276,7 +276,7 @@ namespace EffectBlueprintEditorPlugin {
         public string YScale {
             get {
                 GetTrans();
-                return Transform?.Scale.y.ToString();
+                return FloatString(Transform?.Scale.y);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform.Scale.y != result) {
@@ -296,7 +296,7 @@ namespace EffectBlueprintEditorPlugin {
         public string ZScale {
             get {
                 GetTrans();
-                return Transform?.Scale.z.ToString();
+                return FloatString(Transform?.Scale.z);
             }
             set {
                 if (float.TryParse(value, out float result) && Transform.Scale.z != result) {
@@ -339,21 +339,28 @@ namespace EffectBlueprintEditorPlugin {
             }
         }
 
-        public float SingleValue {
+        public string SingleValue {
             get {
                 if (SingleName is null)
-                    return float.NaN;
+                    return float.NaN.ToString();
                 else
-                    return Value.GetType().GetProperty(SingleName).GetValue(Value, null);
+                    return FloatString((float)Value.GetType().GetProperty(SingleName).GetValue(Value, null));
             }
             set {
-                if (Value.GetType().GetProperty(SingleName).GetValue(Value, null) != value) {
-                    Value.GetType().GetProperty(SingleName).SetValue(Value, value, null);
+                if (float.TryParse(value, out float result) && Value.GetType().GetProperty(SingleName).GetValue(Value, null) != result) {
+                    Value.GetType().GetProperty(SingleName).SetValue(Value, result, null);
+                    RaisePropertyChanged("SingleValue");
+                    propertyGrid.Modified = true;
+                }
+                else if (TrySolve(value, out float mathResult)) {
+                    Value.GetType().GetProperty(SingleName).SetValue(Value, mathResult, null);
                     RaisePropertyChanged("SingleValue");
                     propertyGrid.Modified = true;
                 }
             }
         }
+
+        public string FloatString(float? value) => value?.ToString("F32").TrimEnd('0').TrimEnd('.') ?? string.Empty;
 
         public bool TrySolve(string expression, out float result) {
             try {
@@ -364,6 +371,14 @@ namespace EffectBlueprintEditorPlugin {
                 result = float.NaN;
                 return false;
             }
+        }
+
+        private float Round(float value, double threshold = 0.00001f) {
+            float newVal = (float)Math.Round(value, 1);
+            if (Math.Abs(value - newVal) < threshold)
+                return newVal;
+            else
+                return value;
         }
 
         public void GetTrans() {
@@ -382,9 +397,9 @@ namespace EffectBlueprintEditorPlugin {
                 Transform.Translate.y = translation.Y;
                 Transform.Translate.z = translation.Z;
 
-                Transform.Scale.x = scale.X;
-                Transform.Scale.y = scale.Y;
-                Transform.Scale.z = scale.Z;
+                Transform.Scale.x = Round(scale.X);
+                Transform.Scale.y = Round(scale.Y);
+                Transform.Scale.z = Round(scale.Z);
 
                 Transform.Rotation.x = euler.X;
                 Transform.Rotation.y = euler.Y;
@@ -414,7 +429,7 @@ namespace EffectBlueprintEditorPlugin {
             Transform.forward.z = m.M33;
         }
 
-        #endregion
+#endregion
 
         #region -- Constructors --
 
@@ -466,7 +481,7 @@ namespace EffectBlueprintEditorPlugin {
                         break;
                     // Display as a single string
                     default:
-                        SingleName = String.Join("_", egParams);
+                        SingleName = string.Join("_", egParams);
                         XName = "";
                         YName = "";
                         ZName = "";
@@ -593,6 +608,50 @@ namespace EffectBlueprintEditorPlugin {
             Transform = obj;
 
             TransformVisiblity = Visibility.Visible;
+
+            CopyCommand = new RelayCommand((_) => {
+                try {
+                    Clipboard.SetText($"{XLoc}/{YLoc}/{ZLoc}/{XRot}/{YRot}/{ZRot}/{XScale}/{YScale}/{ZScale}");
+                }
+                catch (Exception e) {
+                    SystemSounds.Hand.Play();
+                    App.Logger.LogError($"Unable To Copy to Clipboard: {e.Message}");
+                }
+            });
+
+            PasteCommand = new RelayCommand((_) => {
+                string clipboard = Clipboard.GetText();
+                string[] values = clipboard.Trim().Split('/');
+
+                if (values.Length >= 9) {
+                    if (float.TryParse(values[0], out float _))
+                        XLoc = values[0];
+
+                    if (float.TryParse(values[1], out float _))
+                        YLoc = values[1];
+
+                    if (float.TryParse(values[2], out float _))
+                        ZLoc = values[2];
+
+                    if (float.TryParse(values[3], out float _))
+                        XRot = values[3];
+
+                    if (float.TryParse(values[4], out float _))
+                        YRot = values[4];
+
+                    if (float.TryParse(values[5], out float _))
+                        ZRot = values[5];
+
+                    if (float.TryParse(values[6], out float _))
+                        XScale = values[6];
+
+                    if (float.TryParse(values[7], out float _))
+                        YScale = values[7];
+
+                    if (float.TryParse(values[8], out float _))
+                        ZScale = values[8];
+                }
+            });
         }
 
         #endregion

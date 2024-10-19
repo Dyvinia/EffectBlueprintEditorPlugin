@@ -199,39 +199,39 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Column="0" Orientation="Vertical" Margin="2">
-                                        <TextBlock Text="{Binding Path=XName}" ToolTip="{Binding Path=XName}" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding Path=XName}" ToolTip="{Binding Path=XName}" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                                         <TextBox Text="{Binding Path=XValue, Mode=TwoWay}"/>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0 2 2 2">
-                                        <TextBlock Text="{Binding Path=YName}" ToolTip="{Binding Path=YName}" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding Path=YName}" ToolTip="{Binding Path=YName}" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                                         <TextBox Text="{Binding Path=YValue, Mode=TwoWay}"/>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="2" Orientation="Vertical" Margin="0 2 2 2">
-                                        <TextBlock Text="{Binding Path=ZName}" ToolTip="{Binding Path=ZName}" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding Path=ZName}" ToolTip="{Binding Path=ZName}" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                                         <TextBox Text="{Binding Path=ZValue, Mode=TwoWay}"/>
                                     </StackPanel>
 
                                     <StackPanel Grid.Column="3" Orientation="Vertical" Margin="0 2 2 2">
-                                        <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding Path=WName}" ToolTip="{Binding Path=WName}" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                                         <TextBox Text="{Binding Path=WValue, Mode=TwoWay}"/>
                                     </StackPanel>
-
-                                    <Grid.ContextMenu>
-                                        <ContextMenu>
-                                            <MenuItem Header="Copy Values" Command="{Binding Path=CopyCommand, Mode=TwoWay}"/>
-                                            <MenuItem Header="Paste Values" Command="{Binding Path=PasteCommand, Mode=TwoWay}"/>
-                                        </ContextMenu>
-                                    </Grid.ContextMenu>
                                 </Grid>
-                                <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left" Margin="2"/>
+                                <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left" Margin="2" IsHitTestVisible="False"/>
+
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Copy Values" Command="{Binding Path=CopyCommand, Mode=TwoWay}"/>
+                                        <MenuItem Header="Paste Values" Command="{Binding Path=PasteCommand, Mode=TwoWay}"/>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
                             </Grid>
 
                             <!-- Transform -->
                             <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=TransformVisiblity, Mode=TwoWay}" Width="420">
                                 <StackPanel Margin="2">
-                                    <TextBlock Text="Transforms" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="Transforms" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -265,12 +265,19 @@
                                         <TextBox Grid.Column="2" Text="{Binding Path=ZScale, Mode=TwoWay}" Margin="2 0 0 0"/>
                                     </Grid>
                                 </StackPanel>
+
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Copy Values" Command="{Binding Path=CopyCommand, Mode=TwoWay}"/>
+                                        <MenuItem Header="Paste Values" Command="{Binding Path=PasteCommand, Mode=TwoWay}"/>
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
                             </Grid>
 
                             <!-- Single Value -->
                             <Grid Background="#373737" HorizontalAlignment="Center" Visibility="{Binding Path=SingleVisiblity, Mode=TwoWay}" Width="420">
                                 <StackPanel Orientation="Vertical" Margin="2">
-                                    <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="{Binding Path=SingleName}" ToolTip="{Binding Path=SingleName}" HorizontalAlignment="Left" IsHitTestVisible="False"/>
                                     <TextBox Text="{Binding Path=SingleValue, Mode=TwoWay}"/>
                                 </StackPanel>
                             </Grid>
