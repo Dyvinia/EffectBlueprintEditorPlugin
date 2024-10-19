@@ -36,6 +36,7 @@ namespace EffectBlueprintEditorPlugin {
         private const string PART_ShowTransforms = "PART_ShowTransforms";
         private const string PART_ShowDelay = "PART_ShowDelay";
         private const string PART_ShowAttr = "PART_ShowAttr";
+        private const string PART_ShowGrOverrides = "PART_ShowGrOverrides";
         private const string PART_ShowUnknown = "PART_ShowUnknown";
 
         private const string PART_RefreshTime = "PART_RefreshTime";
@@ -56,6 +57,7 @@ namespace EffectBlueprintEditorPlugin {
         private ToggleButton showTransformsButton;
         private ToggleButton showDelayButton;
         private ToggleButton showAttributesButton;
+        private ToggleButton showGraphOverridesButton;
         private ToggleButton showUnknownButton;
         private TextBlock refreshTimeText;
 
@@ -120,6 +122,9 @@ namespace EffectBlueprintEditorPlugin {
 
             showAttributesButton = GetTemplateChild(PART_ShowAttr) as ToggleButton;
             showAttributesButton.Click += (s, e) => refreshEffectStack.Invoke(null);
+
+            showGraphOverridesButton = GetTemplateChild(PART_ShowGrOverrides) as ToggleButton;
+            showGraphOverridesButton.Click += (s, e) => refreshEffectStack.Invoke(null);
 
             showUnknownButton = GetTemplateChild(PART_ShowUnknown) as ToggleButton;
             showUnknownButton.Click += (s, e) => refreshEffectStack.Invoke(null);
@@ -198,16 +203,23 @@ namespace EffectBlueprintEditorPlugin {
                     if (showDelayButton.IsChecked == true)
                         EmitterStackItems.Add(new EffectStackItemData(component.Internal, "StartDelay", pgAsset));
 
+                    if (showGraphOverridesButton.IsChecked == true) {
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.EmitterGraphOverrides.SpawnRate, pgAsset, "Spawn Rate"));
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.EmitterGraphOverrides.ParticleMaxCount, pgAsset, "Particle Max Count"));
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.EmitterGraphOverrides.ParticleLifeSpan, pgAsset, "Particle Lifespan"));
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal.EmitterGraphOverrides.EmitterLifeSpan, pgAsset, "Emitter Lifespan"));
+                    }
+
                     if (showAttributesButton.IsChecked == true) {
                         foreach (dynamic param in component.Internal.EmitterGraphParams) {
                             if (vsfParams.TryGetValue(param.PropertyId, out string[] _) || showUnknownButton.IsChecked) {
                                 EmitterStackItems.Add(new EffectStackItemData(param.PropertyId, param.Value, pgAsset, vsfParams));
                             }
                         }
-                    }
 
-                    // Add New Param
-                    EmitterStackItems.Add(new EffectStackItemData(component.Internal, pgAsset, vsfParams, refreshEffectStack));
+                        // Add New Param
+                        EmitterStackItems.Add(new EffectStackItemData(component.Internal, pgAsset, vsfParams, refreshEffectStack));
+                    }
                 }
 
                 if (component.Internal.GetType().Name == "LightEffectEntityData" && showLEButton.IsChecked) {

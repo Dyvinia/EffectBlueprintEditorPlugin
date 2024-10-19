@@ -37,28 +37,19 @@
                                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="4,0,4,0">
                                                         <ToggleButton x:Name="PART_ShowEM" IsChecked="True" Width="22" Margin="1" ToolTip="Show Emitters" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="E" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
+                                                                <Image Width="16" Source="/FrostyCore;component/Images/Assets/EmitterFileType.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
                                                         <ToggleButton x:Name="PART_ShowEG" IsChecked="True" Width="22" Margin="1" ToolTip="Show EmitterGraphs" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="G" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
+                                                                <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/EffectEditor.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
                                                         <ToggleButton x:Name="PART_ShowLE" IsChecked="True" Width="22" Margin="1" ToolTip="Show LightEffects" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="L" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
+                                                                <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Light.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
@@ -66,37 +57,31 @@
 
                                                         <ToggleButton x:Name="PART_ShowTransforms" IsChecked="True" Width="22" Margin="1" ToolTip="Show Transforms" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="T" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
+                                                                <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Axis.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
                                                         <ToggleButton x:Name="PART_ShowDelay" IsChecked="False" Width="22" Margin="1" ToolTip="Show Start Delay" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="D" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
+                                                                <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Time.png"/>
+                                                            </ToggleButton.Content>
+                                                        </ToggleButton>
+
+                                                        <ToggleButton x:Name="PART_ShowGrOverrides" IsChecked="False" Width="22" Margin="1" ToolTip="Show Emitter Graph Overrides" Style="{StaticResource {x:Type ToggleButton}}">
+                                                            <ToggleButton.Content>
+                                                                <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Particle.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
                                                         <ToggleButton x:Name="PART_ShowAttr" IsChecked="True" Width="22" Margin="1" ToolTip="Show Attributes" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="A" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
+                                                                <Image Width="16" Source="/FrostyEditor;component/Images/ClassRef.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
 
                                                         <ToggleButton x:Name="PART_ShowUnknown" Width="22" Margin="1" ToolTip="Show Unknown Properties" Style="{StaticResource {x:Type ToggleButton}}">
                                                             <ToggleButton.Content>
-                                                                <Grid>
-                                                                    <Rectangle RadiusY="2" RadiusX="2" Fill="White" Width="14" Height="14"/>
-                                                                    <TextBlock Text="?" Foreground="{StaticResource ControlBackground}" FontFamily="Segoe UI" FontWeight="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                                                </Grid>
+                                                                <Image Width="16" Source="/EffectBlueprintEditorPlugin;component/Images/Question.png"/>
                                                             </ToggleButton.Content>
                                                         </ToggleButton>
                                                     </StackPanel>

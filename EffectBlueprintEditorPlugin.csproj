@@ -44,8 +44,13 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <None Remove="Images\Axis.png" />
     <None Remove="Images\EffectEditor.png" />
+    <None Remove="Images\Light.png" />
+    <None Remove="Images\Particle.png" />
+    <None Remove="Images\Question.png" />
     <None Remove="Images\Refresh.png" />
+    <None Remove="Images\Time.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,8 +80,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Axis.png" />
     <Resource Include="Images\EffectEditor.png" />
+    <Resource Include="Images\Light.png" />
+    <Resource Include="Images\Particle.png" />
+    <Resource Include="Images\Question.png" />
     <Resource Include="Images\Refresh.png" />
+    <Resource Include="Images\Time.png" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

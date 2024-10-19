@@ -49,19 +49,47 @@ namespace EffectBlueprintEditorPlugin {
             get {
                 if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
                     return FloatString(Value.x);
+                else if (Value?.GetType().Name == "QualityScalableFloat" || Value?.GetType().Name == "QualityScalableInt")
+                    return FloatString((float)Value.Low);
                 else
                     return string.Empty;
             }
             set {
-                if (float.TryParse(value, out float result) && Value.x != result) {
-                    Value.x = result;
-                    RaisePropertyChanged("XValue");
-                    propertyGrid.Modified = true;
+                if (Value?.GetType().Name == "QualityScalableFloat") {
+                    if (float.TryParse(value, out float result) && Value.Low != result) {
+                        Value.Low = result;
+                        RaisePropertyChanged("XValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.Low = mathResult;
+                        RaisePropertyChanged("XValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
-                else if (TrySolve(value, out float mathResult)) {
-                    Value.x = mathResult;
-                    RaisePropertyChanged("XValue");
-                    propertyGrid.Modified = true;
+                else if (Value?.GetType().Name == "QualityScalableInt") {
+                    if (int.TryParse(value, out int result) && Value.Low != result) {
+                        Value.Low = result;
+                        RaisePropertyChanged("XValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.Low = (int)Math.Round(mathResult, 0);
+                        RaisePropertyChanged("LowValue");
+                        propertyGrid.Modified = true;
+                    }
+                }
+                else {
+                    if (float.TryParse(value, out float result) && Value.x != result) {
+                        Value.x = result;
+                        RaisePropertyChanged("XValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.x = mathResult;
+                        RaisePropertyChanged("XValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
             }
         }
@@ -70,19 +98,47 @@ namespace EffectBlueprintEditorPlugin {
             get {
                 if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
                     return Value.y.ToString();
+                else if (Value?.GetType().Name == "QualityScalableFloat" || Value?.GetType().Name == "QualityScalableInt")
+                    return FloatString((float)Value.Medium);
                 else
                     return string.Empty;
             }
             set {
-                if (float.TryParse(value, out float result) && Value.y != result) {
-                    Value.y = result;
-                    RaisePropertyChanged("YValue");
-                    propertyGrid.Modified = true;
+                if (Value?.GetType().Name == "QualityScalableFloat") {
+                    if (float.TryParse(value, out float result) && Value.Medium != result) {
+                        Value.Medium = result;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.Medium = mathResult;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
-                else if (TrySolve(value, out float mathResult)) {
-                    Value.y = mathResult;
-                    RaisePropertyChanged("YValue");
-                    propertyGrid.Modified = true;
+                else if (Value?.GetType().Name == "QualityScalableInt") {
+                    if (int.TryParse(value, out int result) && Value.Medium != result) {
+                        Value.Medium = result;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.Medium = (int)Math.Round(mathResult, 0);
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                }
+                else {
+                    if (float.TryParse(value, out float result) && Value.y != result) {
+                        Value.y = result;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.y = mathResult;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
             }
         }
@@ -91,19 +147,47 @@ namespace EffectBlueprintEditorPlugin {
             get {
                 if (Value?.GetType().Name == "Vec4" || Value?.GetType().Name == "Vec3")
                     return FloatString(Value.z);
+                else if (Value?.GetType().Name == "QualityScalableFloat" || Value?.GetType().Name == "QualityScalableInt")
+                    return FloatString((float)Value.High);
                 else
                     return string.Empty;
             }
             set {
-                if (float.TryParse(value, out float result) && Value.z != result) {
-                    Value.z = result;
-                    RaisePropertyChanged("ZValue");
-                    propertyGrid.Modified = true;
+                if (Value?.GetType().Name == "QualityScalableFloat") {
+                    if (float.TryParse(value, out float result) && Value.High != result) {
+                        Value.High = result;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.High = mathResult;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
-                else if (TrySolve(value, out float mathResult)) {
-                    Value.z = mathResult;
-                    RaisePropertyChanged("ZValue");
-                    propertyGrid.Modified = true;
+                else if (Value?.GetType().Name == "QualityScalableInt") {
+                    if (int.TryParse(value, out int result) && Value.High != result) {
+                        Value.High = result;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.High = (int)Math.Round(mathResult, 0);
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                }
+                else {
+                    if (float.TryParse(value, out float result) && Value.z != result) {
+                        Value.z = result;
+                        RaisePropertyChanged("ZValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.z = mathResult;
+                        RaisePropertyChanged("ZValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
             }
         }
@@ -112,19 +196,47 @@ namespace EffectBlueprintEditorPlugin {
             get {
                 if (Value?.GetType().Name == "Vec4")
                     return FloatString(Value.w);
+                else if (Value?.GetType().Name == "QualityScalableFloat" || Value?.GetType().Name == "QualityScalableInt")
+                    return FloatString((float)Value.Ultra);
                 else
                     return string.Empty;
             }
             set {
-                if (float.TryParse(value, out float result) && Value.w != result) {
-                    Value.w = result;
-                    RaisePropertyChanged("WValue");
-                    propertyGrid.Modified = true;
+                if (Value?.GetType().Name == "QualityScalableFloat") {
+                    if (float.TryParse(value, out float result) && Value.Ultra != result) {
+                        Value.Ultra = result;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.Ultra = mathResult;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
-                else if (TrySolve(value, out float mathResult)) {
-                    Value.w = mathResult;
-                    RaisePropertyChanged("WValue");
-                    propertyGrid.Modified = true;
+                else if (Value?.GetType().Name == "QualityScalableInt") {
+                    if (int.TryParse(value, out int result) && Value.Ultra != result) {
+                        Value.Ultra = result;
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.Ultra = (int)Math.Round(mathResult, 0);
+                        RaisePropertyChanged("YValue");
+                        propertyGrid.Modified = true;
+                    }
+                }
+                else {
+                    if (float.TryParse(value, out float result) && Value.w != result) {
+                        Value.w = result;
+                        RaisePropertyChanged("WValue");
+                        propertyGrid.Modified = true;
+                    }
+                    else if (TrySolve(value, out float mathResult)) {
+                        Value.w = mathResult;
+                        RaisePropertyChanged("WValue");
+                        propertyGrid.Modified = true;
+                    }
                 }
             }
         }
@@ -341,19 +453,19 @@ namespace EffectBlueprintEditorPlugin {
 
         public string SingleValue {
             get {
-                if (SingleName is null)
+                if (SingleName is null || Value?.GetType().Name == "QualityScalableFloat" || Value?.GetType().Name == "QualityScalableInt")
                     return float.NaN.ToString();
                 else
-                    return FloatString((float)Value.GetType().GetProperty(SingleName).GetValue(Value, null));
+                    return FloatString((float)Value?.GetType().GetProperty(SingleName).GetValue(Value, null));
             }
             set {
-                if (float.TryParse(value, out float result) && Value.GetType().GetProperty(SingleName).GetValue(Value, null) != result) {
-                    Value.GetType().GetProperty(SingleName).SetValue(Value, result, null);
+                if (float.TryParse(value, out float result) && Value?.GetType().GetProperty(SingleName).GetValue(Value, null) != result) {
+                    Value?.GetType().GetProperty(SingleName).SetValue(Value, result, null);
                     RaisePropertyChanged("SingleValue");
                     propertyGrid.Modified = true;
                 }
                 else if (TrySolve(value, out float mathResult)) {
-                    Value.GetType().GetProperty(SingleName).SetValue(Value, mathResult, null);
+                    Value?.GetType().GetProperty(SingleName).SetValue(Value, mathResult, null);
                     RaisePropertyChanged("SingleValue");
                     propertyGrid.Modified = true;
                 }
@@ -436,6 +548,7 @@ namespace EffectBlueprintEditorPlugin {
         public ICommand CopyCommand { get; set; }
         public ICommand PasteCommand { get; set; }
 
+        // Graph Params
         public EffectStackItemData(int propertyId, dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams) {
             propertyGrid = pg;
             Value = obj;
@@ -527,6 +640,45 @@ namespace EffectBlueprintEditorPlugin {
             });
         }
 
+        // Graph Overrides
+        public EffectStackItemData(dynamic obj, FrostyPropertyGrid pg, string overrideName) {
+            propertyGrid = pg;
+            Value = obj;
+
+            SingleName = overrideName;
+            ValuesVisiblity = Visibility.Visible;
+
+            CopyCommand = new RelayCommand((_) => {
+                try {
+                    Clipboard.SetText($"{XValue}/{YValue}/{ZValue}/{WValue}");
+                }
+                catch (Exception e) {
+                    SystemSounds.Hand.Play();
+                    App.Logger.LogError($"Unable To Copy to Clipboard: {e.Message}");
+                }
+            });
+
+            PasteCommand = new RelayCommand((_) => {
+                string clipboard = Clipboard.GetText();
+                string[] values = clipboard.Trim().Split('/');
+
+                if (values.Length >= 4) {
+                    if (float.TryParse(values[0], out float _))
+                        XValue = values[0];
+
+                    if (float.TryParse(values[1], out float _))
+                        YValue = values[1];
+
+                    if (float.TryParse(values[2], out float _))
+                        ZValue = values[2];
+
+                    if (float.TryParse(values[3], out float _))
+                        WValue = values[3];
+                }
+            });
+        }
+
+        // Single Value
         public EffectStackItemData(dynamic obj, string valueName, FrostyPropertyGrid pg) {
             propertyGrid = pg;
             Value = obj;
@@ -535,6 +687,7 @@ namespace EffectBlueprintEditorPlugin {
             SingleVisiblity = Visibility.Visible;
         }
 
+        // Header
         public EffectStackItemData(dynamic obj, string headerText, List<PointerRef> components, FrostyPropertyGrid pg, Action<object> refreshAction) {
             propertyGrid = pg;
             Value = obj;
@@ -570,6 +723,7 @@ namespace EffectBlueprintEditorPlugin {
 
         public ICommand ButtonClickedCommand { get; set; }
 
+        // New Param
         public EffectStackItemData(dynamic obj, FrostyPropertyGrid pg, Dictionary<int, string[]> vsfParams, Action<object> refreshAction) {
             propertyGrid = pg;
             Value = obj;
@@ -603,6 +757,7 @@ namespace EffectBlueprintEditorPlugin {
             NewPropVisiblity = Visibility.Visible;
         }
 
+        // Transform
         public EffectStackItemData(dynamic obj, FrostyPropertyGrid pg) {
             propertyGrid = pg;
             Transform = obj;
